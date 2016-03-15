@@ -19,6 +19,8 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.2.0",
+    "broccoli-funnel": "^1.0.1",
+    "broccoli-merge-trees": "^1.1.1",
     "ember-ajax": "0.7.1",
     "ember-cli": "2.3.0",
     "ember-cli-app-version": "^1.0.0",
@@ -43,6 +45,7 @@
     "ember-addon"
   ],
   "dependencies": {
+    "d3-scale": "^0.6.4",
     "ember-cli-babel": "^5.1.5"
   },
   "ember-addon": {
