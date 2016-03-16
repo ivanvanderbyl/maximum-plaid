@@ -1,4 +1,4 @@
-import addOptionsToScale from 'dummy/utils/add-options-to-scale';
+import addOptionsToScale from 'ember-d3-scale/utils/add-options-to-scale';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | add options to scale');
