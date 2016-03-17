@@ -1,0 +1,4 @@
+.animated-svg {
+  transition-property: x, width, height;
+  transition-duration: 0.2s, 0.2s, 0.2s;
+}

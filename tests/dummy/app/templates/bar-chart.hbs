@@ -1,0 +1,70 @@
+<div class="panel panel-success">
+  <div class="panel-heading">
+    <h4>Bar Chart Example</h4>
+  </div>
+  <div class="panel-body">
+    <p>
+      This example takes text input and converts it into a bar chart
+      based on the frequency of the letters in the input.
+    </p>
+    <p>
+      This example also uses the <code>compute</code> helper from
+      <a href="https://github.com/DockYard/ember-composable-helpers#compute">
+        Ember Composable Helpers
+      </a>
+    </p>
+  </div>
+</div>
+
+<form class="form-inline">
+  <div class="form-group">
+    <label for="randomText">Text</label>
+    {{bs-input id="randomText" type="textarea" value=text placeholder="Type something in" autocomplete="off"}}
+  </div>
+  <div class="form-group">
+    <label for="heightText">Height</label>
+    {{bs-input id="heightText" type="number" min="100" max="1000" step="25" value=height autocomplete="off"}}
+  </div>
+  <div class="form-group">
+    <label for="widthText">Width</label>
+    {{bs-input id="widthText" type="number" min="100" max="1000" step="25" value=width autocomplete="off"}}
+  </div>
+  <div class="form-group">
+    <label for="paddingText">Padding</label>
+    {{bs-input id="paddingText" type="number" min="0" max="1" step="0.1" value=padding autocomplete="off"}}
+  </div>
+</form>
+
+<h2>{{text}}</h2>
+
+{{#with (letter-frequency text) as |letters|}}
+  <svg width={{width}} height={{height}}>
+    <rect height="100%" width="100%" fill="#eeeeee"/>
+    {{#with (hash
+      xScale=(band-scale letters
+        (append 0 width)
+        round=true
+        padding=padding
+      )
+      yScale=(linear-scale
+        (append 0 10)
+        (append 0 height)
+      )
+      color=(cat-color-scale '10')
+    ) as |scales|}}
+    {{#each letters key='char' as |letter index|}}
+      <rect
+        class="animated-svg"
+        width={{compute scales.xScale.bandwidth}}
+        height={{compute scales.yScale letter.count}}
+        x={{compute scales.xScale letter}}
+        fill={{compute scales.color index}} />
+      <text
+        class="animated-svg"
+        x={{compute scales.xScale letter}} y="10" fill="white">
+        {{letter.char}}: {{letter.count}}
+      </text>
+    {{/each}}
+    {{/with}}
+  </svg>
+{{/with}}
