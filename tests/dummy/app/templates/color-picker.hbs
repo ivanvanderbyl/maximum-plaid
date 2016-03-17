@@ -1,0 +1,53 @@
+<div class="panel panel-success">
+  <div class="panel-heading">
+    <h4>Color Picker Example</h4>
+  </div>
+  <div class="panel-body">
+    <p>
+      This is a basic color picker.
+    </p>
+  </div>
+</div>
+
+<form class="form-inline">
+  <div class="form-group">
+    <label for="numColors">Number of Colors</label>
+    {{bs-input id="numColors" type="number" min="1" max="10" step="1" value=colors}}
+  </div>
+  <div class="form-group">
+    <label for="widthText">Number of Hues</label>
+    {{bs-input id="widthText" type="number" min="1" max="10" step="1" value=hues}}
+  </div>
+</form>
+
+
+<div class="selected-color">
+  {{#if selectedColor}}
+    <div class="selected-color__swatch" style="background: {{selectedColor}}"></div>
+    You selected {{selectedColor}}.
+  {{else}}
+    Select a color!
+  {{/if}}
+</div>
+
+<ul class="color-picker">
+  {{#with (seq-color-scale 'rainbow' (append 0 colors)) as |rainbow|}}
+    {{#each (range 0 colors) as |color|}}
+      <li class="color-picker__hues">
+        {{#with (linear-scale
+          (append 0 halfHues hues)
+          (append 'black' (compute rainbow color) 'white'))
+          as |hueScale|}}
+          {{#each (range 0 hues) as |index|}}
+            <div
+              class="color-picker__swatch"
+              style="background: {{compute hueScale index}}"
+              {{action (action (mut selectedColor)) (compute hueScale index)}}>
+              &nbsp;
+            </div>
+          {{/each}}
+        {{/with}}
+      </li>
+    {{/each}}
+  {{/with}}
+</ul>

@@ -2,3 +2,45 @@
   transition-property: x, width, height;
   transition-duration: 0.2s, 0.2s, 0.2s;
 }
+
+.color-picker {
+  list-style: none;
+  padding: 0;
+  margin: 20px;
+}
+
+.color-picker__hues {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+}
+
+.color-picker__swatch {
+  -webkit-flex-grow: 1;
+  -moz-flex-grow: 1;
+  -ms-flex-grow: 1;
+  -o-flex-grow: 1;
+  flex-grow: 1;
+  line-height: 40px;
+  border-radius: 40px;
+  margin: 3px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.color-picker__swatch:hover {
+  transform: scale(1.2);
+}
+
+.selected-color {
+  margin: 20px;
+}
+
+.selected-color__swatch {
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  border-radius: 20px;
+}
