@@ -7,7 +7,7 @@ const {
 
 export function timeInterval([intervalName]) {
   let key = `time${capitalize(intervalName.toString().toLowerCase())}`;
-  assert(`${intervalName} is not a valid interval name.`, d3Time[key]);
+  assert(`${intervalName} is not a valid interval name.`, !!d3Time[key]);
   return d3Time[key];
 }
 

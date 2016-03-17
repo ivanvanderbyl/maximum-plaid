@@ -6,18 +6,18 @@ moduleForComponent('time-scale', 'Integration | Helper | time scale', {
 });
 
 test('it generates ticks', function(assert) {
-  this.set('domain', [
-    new Date(2016, 2, 1),
-    new Date(2016, 2, 31)
-  ]);
+  let start = new Date(2016, 2, 1);
+  let end = new Date(2016, 2, 31);
+  this.set('domain', [start, end]);
 
   this.render(hbs`
     {{#with (time-scale domain) as |scale|}}
-      {{#each (scale-ticks scale) as |tickValue|}}
-        <a>{{scale-value scale tickValue}}</a>
+      {{#each (scale-ticks scale (time-interval 'day')) as |tickValue|}}
+        <a>{{tickValue}}</a>
       {{/each}}
     {{/with}}
   `);
 
-  assert.equal(this.$('a').length, 16, 'it generates 11 ticks');
+  assert.equal(this.$('a').length, 31, 'it generates 31 ticks');
+  assert.equal(this.$('a:eq(0)').text().trim(), start.toString());
 });
