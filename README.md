@@ -1,19 +1,25 @@
 # Ember-d3-scale
 
-This library provides a suite of Ember helpers around the d3 scale library. Support for more features is ongoing. 
+This library provides a suite of Ember helpers around the d3 scale library. Support for more features is ongoing.
 
 ## Configuration
 
-Currently, there are no configuration options for this addon in `config/environment.js`. At the moment, this addon will add all the required `d3` dependencies. 
+Currently, there are no configuration options for this addon in `config/environment.js`. At the moment, this addon will add all the required `d3` dependencies.
+
+## Live Examples
+
+You can view a demo of a few ways to use these helpers [here](http://spencer516.github.io/ember-d3-scale)
 
 ## Available Helpers
 
 * [Linear Scales](#linear-scales)
 	- [`linear-scale`](#linear-scale)
 	- [`time-scale`](#time-scale)
+  - [`seq-color-scale`](#seq-color-scale)
 * [Ordinal Scales](#ordinal-scales)
 	- [`band-scale`](#band-scale)
 	- [`point-scale`](#point-scale)
+  - [`cat-color-scale`](#cat-color-scale)
 * [Scale Derivatives](#scale-derivatives)
 	- [`scale-tics`](#scale-ticks)
 	- [`scale-value`](#scale-value)
@@ -26,7 +32,7 @@ Currently, there are no configuration options for this addon in `config/environm
 ### Linear scales
 
 #### `linear-scale`
-[D3 Linear Scale](https://github.com/d3/d3-scale#linear-scales) 
+[D3 Linear Scale](https://github.com/d3/d3-scale#linear-scales)
 
 ```js
 export default Ember.Component.extend({
@@ -60,7 +66,8 @@ export default Ember.Component.extend({
   {{/each}}
 {{/with}}
 ```
-
+### `seq-color-scale`
+Sequential color scale description.
 
 ### Ordinal scales
 
@@ -70,10 +77,13 @@ Band scale description
 #### `point-scale`
 Point Scale description
 
+#### `cat-color-scale`
+Categorical color scale.
+
 ### Scale Derivatives
 
 #### `scale-ticks`
-Scale ticks 
+Scale ticks
 
 #### `scale-value`
 Get the calculated value from a scale
