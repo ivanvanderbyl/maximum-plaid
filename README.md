@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/spencer516/ember-d3-scale.svg?branch=master)](https://travis-ci.org/spencer516/ember-d3-scale)
+[![Code Climate](https://codeclimate.com/github/spencer516/ember-d3-scale/badges/gpa.svg)](https://codeclimate.com/github/spencer516/ember-d3-scale)
+[![Ember Observer Score](http://emberobserver.com/badges/ember-d3-scale.svg)](http://emberobserver.com/addons/ember-d3-scale)
+
 # Ember-d3-scale
 
 This library provides a suite of Ember helpers around the d3 scale library. Support for more features is ongoing.
