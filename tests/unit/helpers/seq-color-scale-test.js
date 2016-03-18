@@ -1,3 +1,4 @@
+import d3Proxy from 'ember-d3-scale/utils/d3-proxy';
 import { seqColorScale } from 'dummy/helpers/seq-color-scale';
 import { module, test } from 'qunit';
 
@@ -8,6 +9,11 @@ test('it works', function(assert) {
   assert.throws(() => {
     seqColorScale([42], {});
   }, 'throws on an incorrect scale name');
+
+  if (!d3Proxy('scale', 'Inferno')) {
+    assert.ok('Sequential Color Scales not supported');
+    return;
+  }
 
   let result;
   result = seqColorScale(['magma'], {});

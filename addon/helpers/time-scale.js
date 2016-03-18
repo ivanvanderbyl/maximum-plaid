@@ -1,9 +1,9 @@
 import Ember from 'ember';
+import d3Proxy from '../utils/d3-proxy';
 import addOptionsToScale from '../utils/add-options-to-scale';
-import d3Scale from 'ember-d3-scale';
 
 export function timeScale([domain, range], hash) {
-  let scale = d3Scale.scaleTime();
+  let scale = d3Proxy('scale', 'time')();
   addOptionsToScale(scale, domain, range, hash);
   return scale;
 }

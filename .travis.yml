@@ -32,3 +32,4 @@ install:
 
 script:
   - ember try $EMBER_TRY_SCENARIO test
+  - env EXCLUDE_D3_MODULES=true ember try $EMBER_TRY_SCENARIO test

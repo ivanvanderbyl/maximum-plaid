@@ -16,7 +16,7 @@ module.exports = {
     'd3-time-format',
     'd3-scale'
   ],
-  included: function(app) {
+  included: function(app, opts) {
     this._super.included.apply(this, arguments);
 
     // see: https://github.com/ember-cli/ember-cli/issues/3718
@@ -24,11 +24,15 @@ module.exports = {
       app = app.app;
     }
 
+    var config = this.app.options || {};
+    var addonConfig = config[this.name] || {};
     var vendor = this.treePaths.vendor;
 
-    this.npmDependencies.forEach(function(dependency) {
-      app.import(vendor + '/' + dependency + '/' + dependency + '.js');
-    });
+    if (!addonConfig.excludeModules) {
+      this.npmDependencies.forEach(function(dependency) {
+        app.import(vendor + '/' + dependency + '/' + dependency + '.js');
+      });
+    }
   },
   treeForVendor: function(vendorTree) {
     var trees = [];

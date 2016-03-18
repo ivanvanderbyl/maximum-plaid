@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import d3Scale from 'ember-d3-scale';
+import d3Proxy from '../utils/d3-proxy';
 const {
   assert,
   isEmpty,
@@ -21,7 +21,10 @@ export function seqColorScale([type, domain], hash) {
   let capType = capitalize(type.toString().toLowerCase());
   assert(`${type} is not a valid sequential color scale name`, capType in WHITELIST);
 
-  let scale = d3Scale[`scale${capType}`]();
+  let scaleType = d3Proxy('scale', capType);
+  assert('Sequential Color scales are not available in D3 v3', !!scaleType);
+
+  let scale = scaleType();
 
   // If a scale was provided.
   if (!isEmpty(domain)) {

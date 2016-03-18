@@ -15,10 +15,15 @@ test('works supporting paddingInner/Outer', function(assert) {
       lastArgs[prop] = args;
       callCounts[prop]++;
     };
-    return hash;
-  }, {});
 
-  addOptionsToOrdinalScale(scale, {});
+    return hash;
+  }, {
+    domain() {},
+    range() {},
+    rangeRound() {}
+  });
+
+  addOptionsToOrdinalScale(scale, [], [], {});
   assert.deepEqual(callCounts, {
     align: 0,
     padding: 0,
@@ -32,7 +37,7 @@ test('works supporting paddingInner/Outer', function(assert) {
     paddingOuter: []
   });
 
-  addOptionsToOrdinalScale(scale, {
+  addOptionsToOrdinalScale(scale, [], [], {
     padding: 10
   });
   assert.deepEqual(callCounts, {
@@ -48,7 +53,7 @@ test('works supporting paddingInner/Outer', function(assert) {
     paddingOuter: []
   });
 
-  addOptionsToOrdinalScale(scale, {
+  addOptionsToOrdinalScale(scale, [], [], {
     'padding-inner': 10
   });
   assert.deepEqual(callCounts, {
@@ -64,7 +69,7 @@ test('works supporting paddingInner/Outer', function(assert) {
     paddingOuter: []
   });
 
-  addOptionsToOrdinalScale(scale, {
+  addOptionsToOrdinalScale(scale, [], [], {
     'padding-outer': 10
   });
   assert.deepEqual(callCounts, {
@@ -80,7 +85,7 @@ test('works supporting paddingInner/Outer', function(assert) {
     paddingOuter: [10]
   });
 
-  addOptionsToOrdinalScale(scale, {
+  addOptionsToOrdinalScale(scale, [], [], {
     align: 0
   });
   assert.deepEqual(callCounts, {

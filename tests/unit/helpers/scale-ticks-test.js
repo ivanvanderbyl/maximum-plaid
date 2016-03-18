@@ -1,4 +1,4 @@
-import d3Scale, { d3Time } from 'ember-d3-scale';
+import d3Proxy from 'ember-d3-scale/utils/d3-proxy';
 import { scaleTicks } from 'dummy/helpers/scale-ticks';
 import { module, test } from 'qunit';
 
@@ -12,18 +12,20 @@ test('it requires a `ticks` function', function(assert) {
 
   let scale, result;
 
-  scale = d3Scale.scaleLinear();
+  scale = d3Proxy('scale', 'linear')();
   result = scaleTicks([scale]);
   assert.equal(result.length, 11, 'there are 11 ticks by default');
 
   result = scaleTicks([scale, 5]);
   assert.equal(result.length, 6, 'there are 6 ticks by default');
 
-  scale = d3Scale.scaleTime();
-  result = scaleTicks([scale, d3Time.timeMinute, 5]);
+  scale = d3Proxy('scale', 'time')();
+  scale.domain([new Date(2015, 0, 1), new Date(2015, 0, 2)]);
+  result = scaleTicks([scale, d3Proxy('time', 'minute'), 5]);
   assert.equal(result[1] - result[0], 1000 * 60 * 5, 'each step is 5 minutes');
 
-  scale = d3Scale.scaleTime();
-  result = scaleTicks([scale, d3Time.timeMinute, 10]);
+  scale = d3Proxy('scale', 'time')();
+  scale.domain([new Date(2015, 0, 1), new Date(2015, 0, 2)]);
+  result = scaleTicks([scale, d3Proxy('time', 'minute'), 10]);
   assert.equal(result[1] - result[0], 1000 * 60 * 10, 'each step is 10 minutes');
 });
