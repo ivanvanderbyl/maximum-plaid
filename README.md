@@ -36,7 +36,7 @@ visualisations in very few lines of code.
 Or perhaps using [ember-d3-scale](https://github.com/spencer516/ember-d3-scale#linear-scale)
 
 ```hbs
-{{#plaid-plot (time-scale xDomain xRange) (linear-scale yDomain yRange) width height as |plot|}}
+{{#plaid-plot (time-scale (extent timestamps) (extent 0 width)) (linear-scale yDomain yRange) width height as |plot|}}
   {{plot.right-axis}}
   {{plot.line responseTimes}}
 {{/plaid-plot}}
