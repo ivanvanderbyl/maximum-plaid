@@ -1,6 +1,35 @@
-# Plaid
+# Maximum Plaid
 
 Template driven data visualisation for ambitious applications.
+
+**WIP**
+
+# Design
+
+Traditional charting libraries often times have poor separation of concerns from
+data and presentation. This leads to poor maintainability and code reuse.
+
+Another consideration when visualising a dataset is whether you desire _efficiency_
+or _expressiveness_, when you typically can't have both.
+
+`maximum-plaid` is designed to change this by utilising Ember's declaritive templating 
+and component composition, with D3's leading primitives for producing easy to
+compose data visualisations for both data exploration and explanatory presentation.
+
+# Proposed API
+
+On their own, components for even the simplest elements in a visualisation can
+quickly require complicated APIs. To solve this, Ember contextual components can
+provide lower level primitive components with the necessary inputs for scaling
+and positioning. This reduces the API surface for the user to quickly produce
+visualisations in very few lines of code.
+
+```hbs
+{{#plaid-plot xScale yScale width height as |plot|}}
+  {{plot.right-axis}}
+  {{plot.line responseTimes}}
+{{/plaid-plot}}
+```
 
 # Mixins
 
