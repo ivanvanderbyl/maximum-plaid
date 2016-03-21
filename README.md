@@ -80,7 +80,16 @@ For more information on using ember-cli, visit [http://www.ember-cli.com/](http:
 
 # FAQ
 
-### You spelt visualization wrong.
+### Why `maximum-plaid`?
+
+**Ivan**: Initially I was searching name which represented both a
+type of fabric for the visualisation metaphore, but also I've been told that friends
+have lost me in crowds walking around Williamsburg because I wear so much plaid. Also, the goal
+of this project is to make data visualisation easy and efficient, so in keeping with
+the promised performance mode of the next [Tesla Roadster](http://mashable.com/2015/07/17/new-tesla-roadster/#3NCT_4NpL8qU), I found "maximum plaid" to be
+fitting.
+
+### You spelt visualization wrong
 
 As the main author of this project is Australian — a country which speaks a 
 variation of British English, words such as `visualisation` are spelt with an `s`
