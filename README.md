@@ -1,6 +1,6 @@
 # Maximum Plaid
 
-[![Build Status](https://travis-ci.org/ivanvanderbyl/plaid.svg?branch=master)](https://travis-ci.org/ivanvanderbyl/plaid)
+[![Build Status](https://travis-ci.org/ivanvanderbyl/maximum-plaid.svg?branch=master)](https://travis-ci.org/ivanvanderbyl/maximum-plaid)
 
 Template driven data visualisation for ambitious applications.
 
