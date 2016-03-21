@@ -42,7 +42,7 @@
   "keywords": [
     "ember-addon",
     "d3",
-    "maximum-plaid",
+    "maximum-plaid"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.5"
