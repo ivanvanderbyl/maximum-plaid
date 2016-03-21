@@ -33,6 +33,18 @@ visualisations in very few lines of code.
 {{/plaid-plot}}
 ```
 
+Or perhaps using [ember-d3-scale](https://github.com/spencer516/ember-d3-scale#linear-scale)
+
+```hbs
+{{#plaid-plot (time-scale xDomain xRange) (linear-scale yDomain yRange) width height as |plot|}}
+  {{plot.right-axis}}
+  {{plot.line responseTimes}}
+{{/plaid-plot}}
+```
+
+Ideally width and height would be take into account by just supplying the `plotArea`
+property.
+
 # Mixins
 
 ## `PlotArea`
