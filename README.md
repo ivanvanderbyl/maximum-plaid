@@ -1,6 +1,6 @@
 # Plaid
 
-This README outlines the details of collaborating on this Ember addon.
+Template driven data visualisation for Ember
 
 ## Installation
 
