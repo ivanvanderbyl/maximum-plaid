@@ -1,7 +1,7 @@
 {
-  "name": "plaid",
+  "name": "maximum-plaid",
   "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Template driven data visualisation for ambitious applications",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -11,11 +11,11 @@
     "start": "ember server",
     "test": "ember try:testall"
   },
-  "repository": "",
+  "repository": "ivanvanderbyl/plaid",
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 4.0"
   },
-  "author": "",
+  "author": "Ivan Vanderbyl",
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.2.0",
@@ -40,7 +40,9 @@
     "loader.js": "^4.0.0"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "d3",
+    "maximum-plaid",
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.5"
