@@ -1,6 +1,7 @@
 # Maximum Plaid
 
 [![Build Status](https://travis-ci.org/ivanvanderbyl/maximum-plaid.svg?branch=master)](https://travis-ci.org/ivanvanderbyl/maximum-plaid)
+[![Ember Observer Score](http://emberobserver.com/badges/maximum-plaid.svg)](http://emberobserver.com/addons/maximum-plaid)
 
 Template driven data visualisation for ambitious applications.
 
