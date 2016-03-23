@@ -104,6 +104,8 @@ fitting.
 
 ### You spelt visualization wrong
 
+That's not a question.
+
 As the main author of this project is Australian — a country which speaks a 
 variation of British English, words such as `visualisation` are spelt with an `s`
 instead of a `z`. Another word you may find incorrectly spelt is `colour`. Please
