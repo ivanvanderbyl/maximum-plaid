@@ -1,4 +1,4 @@
-# Maximum Plaid
+![Maximum Plaid](/logo/maximum-plaid-logo.png)
 
 [![Build Status](https://travis-ci.org/ivanvanderbyl/maximum-plaid.svg?branch=master)](https://travis-ci.org/ivanvanderbyl/maximum-plaid)
 [![Ember Observer Score](http://emberobserver.com/badges/maximum-plaid.svg)](http://emberobserver.com/addons/maximum-plaid)
