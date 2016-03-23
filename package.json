@@ -42,7 +42,11 @@
   "keywords": [
     "ember-addon",
     "d3",
-    "maximum-plaid"
+    "maximum-plaid",
+    "data-visualization",
+    "visualisation",
+    "charts",
+    "charting-package"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.5"
