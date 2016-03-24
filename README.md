@@ -69,14 +69,24 @@ export default Component.extend({
     transactionRate: [[1450345980000,80000], ...],
   },
 
+  metricNames: computed('values.@each', {
+    get() { 
+      const values = this.get('values');
+      return Object.keys(values);
+    }
+  }),
+
   yScalesForMetrics: computed('values.@each', {
     get() {
       const values = this.get('values');
+      const metricNames = this.get('metricNames');
       let scales = {};
-      Object.keys(values).forEach((metricName) => {
+      metricNames.forEach((metricName) => {
         scales[metricName] = 
           this.getScaleForMetricName(metricName, values[metricName]);
-      })
+      });
+
+      return scales;
     }
   }),
 
