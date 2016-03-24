@@ -46,6 +46,56 @@ Or perhaps using [ember-d3-scale](https://github.com/spencer516/ember-d3-scale#l
 Ideally width and height would be take into account by just supplying the `plotArea`
 property.
 
+*What about different scales for each line?*
+
+If you don't supply a scale, it will be set to `null` by default, which can easily
+be overridden later. In this case we want to keep the xScale consistent.
+
+```hbs
+{{#plaid-plot xScale as |plot|}}
+  {{#each metricNames as |metricName|}}
+    {{plot.right-axis scale=(get yScalesForMetrics metricName)}}
+    {{plot.line (get metrics metricName) yScale=(get yScalesForMetrics metricName)}}
+  {{/each}}
+{{/plaid-plot}}
+```
+
+```js
+// my-line-chart-component
+export default Component.extend({
+  values: {
+    responseTimes: [[1450345980000,1914], ...],
+    concurrency: [[1450345980000,1000], ...],
+    transactionRate: [[1450345980000,80000], ...],
+  },
+
+  yScalesForMetrics: computed('values.@each', {
+    get() {
+      const values = this.get('values');
+      let scales = {};
+      Object.keys(values).forEach((metricName) => {
+        scales[metricName] = 
+          this.getScaleForMetricName(metricName, values[metricName]);
+      })
+    }
+  }),
+
+  getScaleForMetricName(metricName, values) {
+    // We use the same yRange for all lines.
+    const yRange = this.get('yRange');
+    const yDomain = this.getDomainForMetricName(metricName, values);
+    // Compute domain based on values and return a scaling function.
+    return scaleLinear().domain(yDomain).range(yRange);
+  },
+
+  getDomainForMetricName(metricName, values) {
+    // We only need the domain for one dimension, because the other needs to
+    // be equal for all lines, in this case; `time`.
+    return extent(values, (d) => d[1]);
+  },
+});
+```
+
 # Mixins
 
 ## `PlotArea`
