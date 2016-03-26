@@ -106,6 +106,29 @@ export default Component.extend({
 });
 ```
 
+# Components
+
+### `plaid-symbol`
+
+Provides an easy to use and straight forward interface to `d3-shape`'s symbol 
+generators. `primitive-symbol` can be used in the same way as any Ember component
+and will  render as a `<path>` tag containing the path data for the specified
+symbol type.
+
+#### Options
+
+- `type`: Symbol to render, can be any of `circle`, `diamond`, `cross`, 
+`square`, `star`, `triangle`, `wye`.
+- `size`: Specifies the symbol render size. This is the area of the
+symbol, which typicall equates to 1/4th of the actual width or height, depending
+on the shape.
+- `fill`: SVG path `fill`  property.
+- `stroke`: SVG path `stroke` property.
+- `strokeWidth`: SVG path `stroke-width` property.
+- `top`: Top offset (applied using transform).
+- `left`: Left offset (applied using transform).
+
+
 # Mixins
 
 ## `PlotArea`
