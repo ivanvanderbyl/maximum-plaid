@@ -128,6 +128,13 @@ export default Component.extend(PlotArea, {
 });
 ```
 
+# Utils
+
+## `computedExtent`
+
+Creates a computed property which calculates the extent of all inputs provided
+using `extent` from d3-array.
+
 ## Installation
 
 * `git clone` this repository
