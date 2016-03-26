@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import PlotAreaMixin from 'plaid/mixins/plot-area';
+import PlotAreaMixin from 'maximum-plaid/mixins/plot-area';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | plot area');

@@ -46,7 +46,7 @@ Or perhaps using [ember-d3-scale](https://github.com/spencer516/ember-d3-scale#l
 Ideally width and height would be take into account by just supplying the `plotArea`
 property.
 
-*What about different scales for each line?*
+**What about different scales for each line?**
 
 If you don't supply a scale, it will be set to `null` by default, which can easily
 be overridden later. In this case we want to keep the xScale consistent.
@@ -116,7 +116,7 @@ a visualisation.
 ### Example:
 
 ```js
-import { PlotArea } from 'plaid/mixins/plot-area';
+import { PlotArea } from 'maximum-plaid/mixins/plot-area';
 
 export default Component.extend(PlotArea, {
   margin: '16 24',

@@ -1,1 +1,1 @@
-export { default } from 'plaid/utils/box-expression';
+export { default } from 'maximum-plaid/utils/box-expression';
