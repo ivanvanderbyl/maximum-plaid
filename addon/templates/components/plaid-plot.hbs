@@ -1,0 +1,6 @@
+{{yield (hash
+  line=(component "plaid-line" xScale=xScale yScale=yScale x=plotArea.left y=plotArea.top)
+  scatter=(component "plaid-scatter" xScale=xScale yScale=yScale x=plotArea.left y=plotArea.top)
+  symbol=(component "plaid-symbol" x=plotArea.left y=plotArea.top)
+  bottom-axis=(component "plaid-axis" orientation="bottom" scale=xScale y=plotArea.bottom x=plotArea.left)
+)}}

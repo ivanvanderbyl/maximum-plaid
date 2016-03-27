@@ -18,7 +18,15 @@ const {
   typeOf,
 } = Ember;
 
-export default Ember.Component.extend({
+/**
+ * Generates the path data for a symbol as a <path> tag.
+ *
+ * Usage:
+ *
+ *   {{plaid-symbol "TYPE" x y}}
+ */
+
+const SymbolComponent = Ember.Component.extend({
   tagName: 'path',
   attributeBindings: [
     'symbolData:d',
@@ -92,7 +100,7 @@ export default Ember.Component.extend({
           'star': symbolStar,
           'triangle': symbolTriangle,
           'wye': symbolWye,
-        }[type];
+        }[type.toLowerCase()];
         assert(`Not a valid symbol type "${type}"`, isPresent(data));
       }
 
@@ -111,3 +119,9 @@ export default Ember.Component.extend({
     }
   }),
 });
+
+SymbolComponent.reopenClass({
+  positionalParams: ['type', 'x', 'y']
+});
+
+export default SymbolComponent;
