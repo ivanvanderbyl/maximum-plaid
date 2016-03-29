@@ -1,10 +1,22 @@
 import Ember from 'ember';
-import d3Proxy from '../utils/d3-proxy';
+import {
+  scaleCategory10,
+  scaleCategory20b,
+  scaleCategory20c,
+  scaleCategory20
+} from 'd3-scale';
 import guidDomainScale from '../utils/guid-domain-scale';
 const {
+  get,
   assert,
   isEmpty
 } = Ember;
+const SCALES = {
+  scaleCategory10,
+  scaleCategory20b,
+  scaleCategory20c,
+  scaleCategory20
+};
 
 const WHITELIST = {
   '10': true,
@@ -17,7 +29,7 @@ export function catColorScale([type, domain], hash) {
   let capType = type.toString().toLowerCase();
   assert(`${type} is not a valid sequential color scale name`, capType in WHITELIST);
 
-  let catScale = d3Proxy('scale', `category${capType}`);
+  let catScale = get(SCALES, `scaleCategory${capType}`);
   let scale = guidDomainScale(catScale());
 
   // If a scale was provided.
