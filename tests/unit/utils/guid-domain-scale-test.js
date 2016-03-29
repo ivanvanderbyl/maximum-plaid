@@ -1,5 +1,5 @@
 import guidDomainScale from 'ember-d3-scale/utils/guid-domain-scale';
-import d3Proxy from 'ember-d3-scale/utils/d3-proxy';
+import { scaleBand } from 'd3-scale';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | guid domain scale');
@@ -9,9 +9,8 @@ test('it uses guids for domain, but otherwise feature parity', function(assert) 
   let stdDomain = ['a', 'b', 'c', 'd'];
   let objDomain = [{}, {}, {}, {}];
 
-  let bandScale = d3Proxy('scale', 'band');
-  let stdScale = bandScale();
-  let objScale = guidDomainScale(bandScale());
+  let stdScale = scaleBand();
+  let objScale = guidDomainScale(scaleBand());
 
   stdScale.domain(stdDomain);
   objScale.domain(objDomain);

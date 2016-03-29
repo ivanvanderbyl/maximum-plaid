@@ -1,28 +1,37 @@
 import Ember from 'ember';
-import d3Proxy from '../utils/d3-proxy';
+import {
+  scaleViridis,
+  scaleInferno,
+  scaleMagma,
+  scalePlasma,
+  scaleWarm,
+  scaleCool,
+  scaleRainbow,
+  scaleCubehelix
+} from 'd3-scale';
 const {
+  get,
   assert,
   isEmpty,
   String: { capitalize }
 } = Ember;
 
-const WHITELIST = {
-  Viridis: true,
-  Inferno: true,
-  Magma: true,
-  Plasma: true,
-  Warm: true,
-  Cool: true,
-  Rainbow: true,
-  Cubehelix: true
+const SCALES = {
+  scaleViridis,
+  scaleInferno,
+  scaleMagma,
+  scalePlasma,
+  scaleWarm,
+  scaleCool,
+  scaleRainbow,
+  scaleCubehelix
 };
 
 export function seqColorScale([type, domain], hash) {
-  let capType = capitalize(type.toString().toLowerCase());
-  assert(`${type} is not a valid sequential color scale name`, capType in WHITELIST);
+  let capType = `scale${capitalize(type.toString().toLowerCase())}`;
+  assert(`${type} is not a valid sequential color scale name`, capType in SCALES);
 
-  let scaleType = d3Proxy('scale', capType);
-  assert('Sequential Color scales are not available in D3 v3', !!scaleType);
+  let scaleType = get(SCALES, capType);
 
   let scale = scaleType();
 

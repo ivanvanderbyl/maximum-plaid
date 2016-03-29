@@ -1,4 +1,18 @@
-import d3Proxy from 'ember-d3-scale/utils/d3-proxy';
+import {
+  timeSecond,
+  timeMinute,
+  timeDay,
+  timeWeek,
+  timeMonth,
+  timeYear,
+  timeSunday,
+  timeMonday,
+  timeTuesday,
+  timeWednesday,
+  timeThursday,
+  timeFriday,
+  timeSaturday
+} from 'd3-time';
 import { timeInterval } from 'dummy/helpers/time-interval';
 import { module, test } from 'qunit';
 
@@ -6,23 +20,23 @@ module('Unit | Helper | time interval');
 
 // Replace this with your real tests.
 test('it works', function(assert) {
-  assert.equal(timeInterval(['second']), d3Proxy('time', 'second'));
-  assert.equal(timeInterval(['Second']), d3Proxy('time', 'second'));
-  assert.equal(timeInterval(['SECOND']), d3Proxy('time', 'second'));
-  assert.equal(timeInterval(['sEcOnD']), d3Proxy('time', 'second'));
+  assert.equal(timeInterval(['second']), timeSecond);
+  assert.equal(timeInterval(['Second']), timeSecond);
+  assert.equal(timeInterval(['SECOND']), timeSecond);
+  assert.equal(timeInterval(['sEcOnD']), timeSecond);
 
-  assert.equal(timeInterval(['Minute']), d3Proxy('time', 'minute'));
-  assert.equal(timeInterval(['Day']), d3Proxy('time', 'day'));
-  assert.equal(timeInterval(['Week']), d3Proxy('time', 'week'));
-  assert.equal(timeInterval(['Month']), d3Proxy('time', 'month'));
-  assert.equal(timeInterval(['Year']), d3Proxy('time', 'year'));
-  assert.equal(timeInterval(['Sunday']), d3Proxy('time', 'sunday'));
-  assert.equal(timeInterval(['Monday']), d3Proxy('time', 'monday'));
-  assert.equal(timeInterval(['Tuesday']), d3Proxy('time', 'tuesday'));
-  assert.equal(timeInterval(['Wednesday']), d3Proxy('time', 'wednesday'));
-  assert.equal(timeInterval(['Thursday']), d3Proxy('time', 'thursday'));
-  assert.equal(timeInterval(['Friday']), d3Proxy('time', 'friday'));
-  assert.equal(timeInterval(['Saturday']), d3Proxy('time', 'saturday'));
+  assert.equal(timeInterval(['Minute']), timeMinute);
+  assert.equal(timeInterval(['Day']), timeDay);
+  assert.equal(timeInterval(['Week']), timeWeek);
+  assert.equal(timeInterval(['Month']), timeMonth);
+  assert.equal(timeInterval(['Year']), timeYear);
+  assert.equal(timeInterval(['Sunday']), timeSunday);
+  assert.equal(timeInterval(['Monday']), timeMonday);
+  assert.equal(timeInterval(['Tuesday']), timeTuesday);
+  assert.equal(timeInterval(['Wednesday']), timeWednesday);
+  assert.equal(timeInterval(['Thursday']), timeThursday);
+  assert.equal(timeInterval(['Friday']), timeFriday);
+  assert.equal(timeInterval(['Saturday']), timeSaturday);
 
   assert.throws(() => {
     timeInterval(['Hamilton']);
