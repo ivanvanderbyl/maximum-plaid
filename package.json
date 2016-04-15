@@ -51,7 +51,7 @@
     "ember-addon"
   ],
   "dependencies": {
-    "ember-cli-d3-shape": "0.8.0",
+    "ember-cli-d3-shape": "spencer516/ember-cli-d3-shape#addon-in-addon",
     "ember-cli-babel": "^5.1.5"
   },
   "ember-addon": {
