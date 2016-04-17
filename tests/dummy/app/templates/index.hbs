@@ -1,0 +1,7 @@
+{{#plaid-canvas
+  xScale=(linear-scale (extent (map-by 'timestamp' dataPoints)) (extent plotArea.width))
+  yScale=(linear-scale (extent (map-by 'value' dataPoints)) (extent plotArea.height))
+  plotArea=plotArea
+as |plot|}}
+  {{plot.line dataPoints}}
+{{/plaid-canvas}}
