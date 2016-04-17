@@ -2,5 +2,5 @@
 'use strict';
 
 module.exports = {
-  name: 'maximum-plaid'
+  name: 'maximum-plaid',
 };
