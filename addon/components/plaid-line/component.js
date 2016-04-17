@@ -12,6 +12,20 @@ const {
 const PlaidLineComponent = Ember.Component.extend(GroupElement, {
   layout,
 
+  canvas: null,
+
+  // tagName: '',
+
+  // tagName: computed('canvas', {
+  //   get() {
+  //     if (this.get('canvas')) {
+  //       return '';
+  //     }else{
+  //       return 'g';
+  //     }
+  //   }
+  // }),
+
   /**
    * xScale function
    *
@@ -46,6 +60,9 @@ const PlaidLineComponent = Ember.Component.extend(GroupElement, {
   didRender() {
     const pathAttrs = this.getProperties(w('stroke strokeWidth strokeOpacity fill fillOpacity'));
     const line = this.selection.select('path.line');
+
+    this.get('pathData');
+
     Object.keys(pathAttrs).forEach((attr) => {
       let value = pathAttrs[attr];
 
@@ -55,18 +72,31 @@ const PlaidLineComponent = Ember.Component.extend(GroupElement, {
     });
   },
 
-  pathData: computed('values.[]', 'xScale', 'yScale', {
+  pathData: computed('values.[]', 'xScale', 'yScale', 'canvas', {
     get() {
       const { values, xScale, yScale, curve, } =
         this.getProperties('values', 'xScale', 'yScale', 'curve');
 
-        console.log(curve);
+      const context = this.get('canvas');
 
       const lineFn = line()
         .curve(curve)
-        .x((d) => xScale(d[0]))
-        .y((d) => yScale(d[1]));
-      return lineFn(values);
+        .x((d) => xScale(d.timestamp))
+        .y((d) => yScale(d.value));
+
+      if (!!context) {
+        lineFn.context(context);
+        context.clearRect(0, 0, 720, 240);
+
+        context.globalAlpha = 1;
+        context.beginPath();
+        lineFn(values);
+        context.lineWidth = 1;
+        context.strokeStyle = "#000";
+        context.stroke();
+      }else{
+        return lineFn(values);
+      }
     },
   }),
 });
