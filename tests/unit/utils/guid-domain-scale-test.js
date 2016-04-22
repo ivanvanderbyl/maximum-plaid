@@ -53,4 +53,10 @@ test('it uses guids for domain, but otherwise feature parity', function(assert) 
   assert.equal(stdScale(stdDomain[0]), objScale(objDomain[0]), 'scale function is equivalent');
   assert.equal(stdScale(stdDomain[2]), objScale(objDomain[2]), 'scale function is equivalent');
   assert.equal(stdScale(stdDomain[3]), objScale(objDomain[3]), 'scale function is equivalent');
+
+  // Test Copying.
+  let objScaleCopy = objScale.copy();
+  assert.equal(stdScale(stdDomain[0]), objScaleCopy(objDomain[0]), 'copied scale function is equivalent');
+  assert.equal(stdScale(stdDomain[2]), objScaleCopy(objDomain[2]), 'copied scale function is equivalent');
+  assert.equal(stdScale(stdDomain[3]), objScaleCopy(objDomain[3]), 'copied scale function is equivalent');
 });
