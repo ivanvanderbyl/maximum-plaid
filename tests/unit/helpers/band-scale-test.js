@@ -21,4 +21,12 @@ test('it works', function(assert) {
     padding: 0.5
   });
   assert.equal(result('hamilton'), 10, 'padding works');
+
+  let things = [{}, {}, {}, {}];
+  result = bandScale([
+    things,
+    [0, 100]
+  ], {});
+  assert.equal(result(things[0]), 0);
+  assert.equal(result(things[1]), 25);
 });
