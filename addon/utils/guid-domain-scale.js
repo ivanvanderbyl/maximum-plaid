@@ -19,6 +19,10 @@ export default function guidDomainScale(originalScale) {
           return scaleDomain.slice(0);
         }
       };
+    } else if (key === 'copy') {
+      scale.copy = function() {
+        return guidDomainScale(originalScale.copy());
+      };
     } else {
       scale[key] = originalScale[key];
     }
