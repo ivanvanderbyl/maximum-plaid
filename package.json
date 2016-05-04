@@ -1,6 +1,6 @@
 {
   "name": "ember-d3-scale",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A couple of Ember helpers around D3 Scales",
   "directories": {
     "doc": "doc",
