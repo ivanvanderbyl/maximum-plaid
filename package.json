@@ -53,6 +53,7 @@
     "ember-cli-htmlbars": "^1.0.1"
   },
   "ember-addon": {
-    "configPath": "tests/dummy/config"
+    "configPath": "tests/dummy/config",
+    "demoURL": "http://ivanvanderbyl.github.io/maximum-plaid-gallery"
   }
 }
