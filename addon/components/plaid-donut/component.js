@@ -2,7 +2,6 @@ import { arc, pie } from  'd3-shape';
 import Ember from 'ember';
 import layout from './template';
 import GroupElement from '../../mixins/group-element';
-import { transition } from 'd3-transition';
 import { interpolate as d3Interpolate } from 'd3-interpolate';
 
 function arcTween(a) {
@@ -20,11 +19,11 @@ const DonutComponent = Ember.Component.extend(GroupElement, {
   innerRadius: 0,
   outerRadius: 200,
 
-  pieFn: function() {
-    return pie().padAngle(5/360);
+  pieFn() {
+    return pie().padAngle(5 / 360);
   },
 
-  arcFn: function() {
+  arcFn() {
     return arc()
       .cornerRadius(8)
       .innerRadius(this.get('innerRadius'))
@@ -32,25 +31,27 @@ const DonutComponent = Ember.Component.extend(GroupElement, {
   },
 
   draw() {
-    const values = this.get('values');
-    const arcs = this.pieFn()(values);
-    const arc = this.arcFn();
-    const colorScale = this.get('colorScale');
+    let values = this.get('values');
+    let arcs = this.pieFn()(values);
+    let arc = this.arcFn();
+    let colorScale = this.get('colorScale');
 
     let plot = this.selection;
 
-    let join = plot.selectAll("path").data(arcs);
-    join.enter().append("path")
+    let join = plot.selectAll('path').data(arcs);
+    join.enter().append('path')
       .attr('fill', (d) => colorScale(d.index))
-      .attr("d", arc)
-      .each((d) => { this._current = d; });
+      .attr('d', arc)
+      .each((d) => {
+        this._current = d;
+      });
     join.exit().select('path').remove();
-    join.transition().duration(500).attrTween("d", arcTween);
+    join.transition().duration(500).attrTween('d', arcTween);
   }
 });
 
 DonutComponent.reopenClass({
-  positionalParams: ['values'],
+  positionalParams: ['values']
 });
 
 export default DonutComponent;

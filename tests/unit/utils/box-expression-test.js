@@ -32,7 +32,7 @@ test('parsing object to object', function(assert) {
 test('parsing object with missing sides', function(assert) {
   let result = box({
     'bottom': 10,
-    'left': 20,
+    'left': 20
   });
 
   assert.deepEqual(result, {

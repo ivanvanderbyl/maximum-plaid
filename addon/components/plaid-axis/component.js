@@ -16,6 +16,7 @@ export default Ember.Component.extend({
   /**
    * Represents the axis orientation. You should always declare this.
    *
+   * @public
    * @type {String}
    */
   orientation: 'top',
@@ -23,6 +24,7 @@ export default Ember.Component.extend({
   /**
    * A scaling function used for this axis.
    *
+   * @public
    * @type {Function}
    */
   scale: null,
@@ -50,10 +52,10 @@ export default Ember.Component.extend({
   },
 
   drawAxis() {
-    const { y, x, xOffset, yOffset } = this.getProperties('y', 'x', 'xOffset', 'yOffset');
-    const scale = this.get('scale');
-    const orientation = this.get('orientation');
-    const tickFormat = this.get('tickFormat');
+    let { y, x, xOffset, yOffset } = this.getProperties('y', 'x', 'xOffset', 'yOffset');
+    let scale = this.get('scale');
+    let orientation = this.get('orientation');
+    let tickFormat = this.get('tickFormat');
 
     this.axis = this.createAxis(orientation, scale);
     this.groupElement.call(this.axis);
@@ -72,7 +74,7 @@ export default Ember.Component.extend({
       top: axisTop(scale),
       right: axisRight(scale),
       bottom: axisBottom(scale),
-      left: axisLeft(scale),
+      left: axisLeft(scale)
     }[orient];
-  },
+  }
 });
