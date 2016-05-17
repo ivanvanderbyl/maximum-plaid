@@ -4,7 +4,7 @@ import { extent } from 'd3-array';
 
 function expandPropertyList(propertyList) {
   return propertyList.reduce((newPropertyList, property) => {
-    const atEachIndex = property.indexOf('.@each');
+    let atEachIndex = property.indexOf('.@each');
     if (atEachIndex !== -1) {
       return newPropertyList.concat(property.slice(0, atEachIndex));
     } else if (property.slice(-2) === '[]') {
@@ -32,19 +32,19 @@ function rejectConstantValues(dependencies) {
 }
 
 export default function computedExtent(...dependencies) {
-  const userSuppliedConstants = extractConstantValues(dependencies) || [];
-  const expandedParams = expandPropertyList(rejectConstantValues(dependencies));
+  let userSuppliedConstants = extractConstantValues(dependencies) || [];
+  let expandedParams = expandPropertyList(rejectConstantValues(dependencies));
 
-  const computedFn = computed.apply(this, [...rejectConstantValues(dependencies), {
+  let computedFn = computed.apply(this, [...rejectConstantValues(dependencies), {
     get() {
       let values = [];
       values = values.concat(userSuppliedConstants);
 
-      let paramValues = expandedParams.map(p => this.get(p));
+      let paramValues = expandedParams.map((p) => this.get(p));
       paramValues.forEach((expandedProperty) => {
         if (Ember.typeOf(expandedProperty) === 'array') {
           values = values.concat(expandedProperty);
-        }else{
+        } else {
           values.push(expandedProperty);
         }
       });

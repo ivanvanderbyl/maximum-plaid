@@ -14,13 +14,13 @@ const ScatterComponent = Ember.Component.extend(GroupElement, {
 
   positions: computed('values.[]', 'xScale', 'yScale', {
     get() {
-      const { values, xScale, yScale }
+      let { values, xScale, yScale }
         = this.getProperties('xScale', 'yScale', 'values');
 
       return values.map(([timestamp, value]) => {
         return {
           x: xScale(timestamp),
-          y: yScale(value),
+          y: yScale(value)
         };
       });
     }
