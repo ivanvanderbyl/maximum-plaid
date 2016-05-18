@@ -5,7 +5,7 @@ module.exports = {
   beforeInstall: function() {
     return this.addAddonsToProject({
       packages: [
-        'ember-d3-shape@^0.8.5',
+        'ember-cli-d3-shape@^0.8.5',
         'ember-math-helpers@^1.0.0'
       ]
     });
