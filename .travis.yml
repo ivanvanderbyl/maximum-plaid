@@ -2,7 +2,6 @@
 language: node_js
 node_js:
   - "0.12"
-  - "stable"
 
 sudo: false
 
@@ -12,7 +11,7 @@ cache:
 
 env:
   - EMBER_TRY_SCENARIO=default
-  - EMBER_TRY_SCENARIO=ember-1-13
+  - EMBER_TRY_SCENARIO=ember-2.4
   - EMBER_TRY_SCENARIO=ember-release
   - EMBER_TRY_SCENARIO=ember-beta
   - EMBER_TRY_SCENARIO=ember-canary
@@ -33,4 +32,4 @@ install:
   - bower install
 
 script:
-  - ember try $EMBER_TRY_SCENARIO test
+  - ember try $EMBER_TRY_SCENARIO test --skip-cleanup

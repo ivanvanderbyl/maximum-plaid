@@ -4,6 +4,7 @@ import { select } from 'd3-selection';
 const { computed } = Ember;
 
 /**
+ * @public
  * GroupElement mixin sets the component's tag to `<g>`, and assigns an instance
  * variable of `this.selection` to a D3 selection of itself.
  */
