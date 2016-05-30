@@ -160,9 +160,9 @@ using `extent` from d3-array.
 
 ## Installation
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+**NOTE: `maximum-plaid` requires Ember v2.3+**
+
+    ember install maximum-plaid
 
 ## Running
 
