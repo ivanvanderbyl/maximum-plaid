@@ -1,6 +1,6 @@
 {
   "name": "maximum-plaid",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Template driven data visualisation for ambitious applications",
   "directories": {
     "doc": "doc",
