@@ -1,11 +1,11 @@
 import Ember from 'ember';
 import { scaleLinear } from 'd3-scale';
 
-export function linearScale([domain, range], hash) {
+export function linearScale([domain, range], hash = {}) {
   let scale = scaleLinear().domain(domain);
   if (hash.round) {
     scale.rangeRound(range);
-  }else{
+  } else {
     scale.range(range);
   }
 

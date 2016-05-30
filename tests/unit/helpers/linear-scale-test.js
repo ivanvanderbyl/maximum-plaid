@@ -3,8 +3,10 @@ import { module, test } from 'qunit';
 
 module('Unit | Helper | linear scale');
 
-// Replace this with your real tests.
-test('it works', function(assert) {
-  let result = linearScale([42]);
-  assert.ok(result);
+test('creates a scale helper', function(assert) {
+  let domain = [0,100];
+  let range = [100, 1000];
+
+  let result = linearScale([domain, range])(50);
+  assert.equal(result, 550, 'computed correct linear scale value');
 });
