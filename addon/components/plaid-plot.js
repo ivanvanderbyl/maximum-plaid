@@ -13,6 +13,7 @@ const PlotComponent = Ember.Component.extend({
   /**
    * Represents the xScale, if used.
    *
+   * @public
    * @type {D3 Scale}
    */
   xScale: null,
@@ -20,6 +21,7 @@ const PlotComponent = Ember.Component.extend({
   /**
    * Represents the yScale, if used.
    *
+   * @public
    * @type {D3 Scale}
    */
   yScale: null,
@@ -31,14 +33,15 @@ const PlotComponent = Ember.Component.extend({
    *
    * {top, right, bottom, left, width, height, outerWidth, outerHeight}
    *
+   * @public
    * @type {Object}
    */
-  plotArea: {},
+  plotArea: {}
 
 });
 
 PlotComponent.reopenClass({
-  positionalParams: ['xScale', 'yScale', 'plotArea'],
+  positionalParams: ['xScale', 'yScale', 'plotArea']
 });
 
 export default PlotComponent;

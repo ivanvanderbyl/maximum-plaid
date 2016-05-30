@@ -4,7 +4,7 @@ import GlobalResize from 'maximum-plaid/mixins/global-resize';
 const {
   run: {
     throttle,
-    next,
+    next
   },
   on
 } = Ember;
@@ -26,15 +26,17 @@ export default Ember.Mixin.create(GlobalResize, {
   },
 
   measureDimensions() {
-    if (!this.element) { return; }
+    if (!this.element) {
+      return;
+    }
 
-    const rect = this.element.getBoundingClientRect();
+    let rect = this.element.getBoundingClientRect();
     this.setProperties({
       width: rect.width,
-      height: rect.height,
+      height: rect.height
     });
 
     this.trigger('didMeasureDimensions');
-  },
+  }
 
 });

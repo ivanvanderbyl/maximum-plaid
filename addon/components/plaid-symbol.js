@@ -8,19 +8,20 @@ import {
   symbolSquare,
   symbolStar,
   symbolTriangle,
-  symbolWye,
+  symbolWye
 } from 'd3-shape';
 
 const {
   computed,
   assert,
   isPresent,
-  typeOf,
+  typeOf
 } = Ember;
 
 /**
  * Generates the path data for a symbol as a <path> tag.
  *
+ * @public
  * Usage:
  *
  *   {{plaid-symbol "TYPE" x y}}
@@ -41,6 +42,7 @@ const SymbolComponent = Ember.Component.extend({
   /**
    * Symbol size in area
    *
+   * @public
    * @type {Number}
    */
   size: 16,
@@ -50,6 +52,7 @@ const SymbolComponent = Ember.Component.extend({
    *
    * Can either be a string or a symbol function.
    *
+   * @public
    * @type {String}
    */
   type: 'diamond',
@@ -57,6 +60,7 @@ const SymbolComponent = Ember.Component.extend({
   /**
    * Fill color or style
    *
+   * @public
    * @type {String}
    */
   fill: 'black',
@@ -68,6 +72,7 @@ const SymbolComponent = Ember.Component.extend({
   /**
    * Positioning offset from y
    *
+   * @public
    * @type {Number}
    */
   y: 0,
@@ -75,6 +80,7 @@ const SymbolComponent = Ember.Component.extend({
   /**
    * Positioning offset from x
    *
+   * @public
    * @type {Number}
    */
   x: 0,
@@ -82,16 +88,17 @@ const SymbolComponent = Ember.Component.extend({
   /**
    * Generates the SVG path data for the given symbol
    *
+   * @public
    * @return {String}
    */
   symbolData: computed('size', 'type', {
     get() {
-      const {size, type} = this.getProperties('size', 'type');
+      let { size, type } = this.getProperties('size', 'type');
       let data;
 
       if (typeOf(type) !== 'string') {
         data = type;
-      }else{
+      } else {
         data = {
           'circle': symbolCircle,
           'diamond': symbolDiamond,
@@ -99,12 +106,12 @@ const SymbolComponent = Ember.Component.extend({
           'square': symbolSquare,
           'star': symbolStar,
           'triangle': symbolTriangle,
-          'wye': symbolWye,
+          'wye': symbolWye
         }[type.toLowerCase()];
         assert(`Not a valid symbol type "${type}"`, isPresent(data));
       }
 
-      const fn = symbol();
+      let fn = symbol();
       fn.type(data);
       fn.size(size);
 
@@ -114,10 +121,10 @@ const SymbolComponent = Ember.Component.extend({
 
   transform: computed('y', 'x', {
     get() {
-      const { y, x } = this.getProperties('y', 'x');
+      let { y, x } = this.getProperties('y', 'x');
       return `translate(${x},${y})`;
     }
-  }),
+  })
 });
 
 SymbolComponent.reopenClass({

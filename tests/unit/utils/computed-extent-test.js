@@ -9,7 +9,7 @@ test('it computes the extent of an array of numbers', function(assert) {
   let TestSubject = Ember.Object.extend({
     values: [1,2,3,4,5,6,7,8,9,10],
 
-    extentOfNumbers: computedExtent('values.[]'),
+    extentOfNumbers: computedExtent('values.[]')
   });
 
   let subject = TestSubject.create();
@@ -20,7 +20,7 @@ test('it can accept a primitive', function(assert) {
   let TestSubject = Ember.Object.extend({
     width: 510,
 
-    xRange: computedExtent(0, 'width'),
+    xRange: computedExtent(0, 'width')
   });
 
   let subject = TestSubject.create();
@@ -32,7 +32,7 @@ test('it can accept multiple dependent keys', function(assert) {
     x1: 100,
     x2: 150,
 
-    xRange: computedExtent(0, 'x1', 'x2'),
+    xRange: computedExtent(0, 'x1', 'x2')
   });
 
   let subject = TestSubject.create();

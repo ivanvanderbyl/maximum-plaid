@@ -17,9 +17,9 @@ test('returns computed area for plot', function(assert) {
 
 test('accepts object with margin', function(assert) {
   let PlotAreaObject = Ember.Object.extend(PlotAreaMixin, {
-    margin: {top: 10, left: 20},
+    margin: { top: 10, left: 20 },
     height: 200,
-    width: 200,
+    width: 200
   });
 
   let subject = PlotAreaObject.create();

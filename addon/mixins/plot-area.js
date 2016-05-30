@@ -14,6 +14,7 @@ export default Ember.Mixin.create({
    *
    * E.g. "24 10" == {top: 24, right: 10, bottom: 24, left: 10}
    *
+   * @public
    * @type {String || Object}
    */
   margin: '0',
@@ -21,13 +22,14 @@ export default Ember.Mixin.create({
   /**
    * Computed dimensions for the actual plot.
    *
+   * @public
    * @return {Object}
    */
-  plotArea: computed('width', 'height', 'margin.@each', {
+  plotArea: computed('width', 'height', 'margin.[]', {
     get() {
-      let height = this.getWithDefault('height', 0),
-        width = this.getWithDefault('width', 0),
-        margin = box(this.get('margin'));
+      let height = this.getWithDefault('height', 0);
+      let width = this.getWithDefault('width', 0);
+      let margin = box(this.get('margin'));
 
       return {
         top: margin.top,
@@ -37,8 +39,8 @@ export default Ember.Mixin.create({
         height: height - margin.top - margin.bottom,
         width: width - margin.left - margin.right,
         outerWidth: width,
-        outerHeight: height,
+        outerHeight: height
       };
-    },
-  }),
+    }
+  })
 });

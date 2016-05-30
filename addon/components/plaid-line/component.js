@@ -6,7 +6,7 @@ import { line, curveMonotoneX } from 'd3-shape';
 const {
   computed,
   isPresent,
-  String: { dasherize, w },
+  String: { dasherize, w }
 } = Ember;
 
 const PlaidLineComponent = Ember.Component.extend(GroupElement, {
@@ -15,6 +15,7 @@ const PlaidLineComponent = Ember.Component.extend(GroupElement, {
   /**
    * xScale function
    *
+   * @public
    * @type {D3 Scale}
    */
   xScale: null,
@@ -22,6 +23,7 @@ const PlaidLineComponent = Ember.Component.extend(GroupElement, {
   /**
    * yScale function
    *
+   * @public
    * @type {D3 Scale}
    */
   yScale: null,
@@ -30,11 +32,12 @@ const PlaidLineComponent = Ember.Component.extend(GroupElement, {
    * Values to render line from. These should be the same as those used
    * for the domains of the scaling functions.
    *
+   * @public
    * @type {Array}
    */
   values: [],
 
-  stroke: "black",
+  stroke: 'black',
   strokeWidth: 2,
   strokeOpacity: 1.0,
 
@@ -44,8 +47,8 @@ const PlaidLineComponent = Ember.Component.extend(GroupElement, {
   curve: curveMonotoneX,
 
   didRender() {
-    const pathAttrs = this.getProperties(w('stroke strokeWidth strokeOpacity fill fillOpacity'));
-    const line = this.selection.select('path.line');
+    let pathAttrs = this.getProperties(w('stroke strokeWidth strokeOpacity fill fillOpacity'));
+    let line = this.selection.select('path.line');
     Object.keys(pathAttrs).forEach((attr) => {
       let value = pathAttrs[attr];
 
@@ -57,22 +60,20 @@ const PlaidLineComponent = Ember.Component.extend(GroupElement, {
 
   pathData: computed('values.[]', 'xScale', 'yScale', {
     get() {
-      const { values, xScale, yScale, curve, } =
+      let { values, xScale, yScale, curve } =
         this.getProperties('values', 'xScale', 'yScale', 'curve');
 
-        console.log(curve);
-
-      const lineFn = line()
+      let lineFn = line()
         .curve(curve)
         .x((d) => xScale(d[0]))
         .y((d) => yScale(d[1]));
       return lineFn(values);
-    },
-  }),
+    }
+  })
 });
 
 PlaidLineComponent.reopenClass({
-  positionalParams: ['values'],
+  positionalParams: ['values']
 });
 
 export default PlaidLineComponent;
