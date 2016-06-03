@@ -1,11 +1,12 @@
 import Ember from 'ember';
 import { select } from 'd3-selection';
+import { format } from 'd3-format';
+import GroupElement from '../../mixins/group-element';
 import { axisTop, axisRight, axisBottom, axisLeft } from 'd3-axis';
 
-// const { run: { scheduleOnce }} = Ember;
+const { run: { scheduleOnce }} = Ember;
 
-export default Ember.Component.extend({
-  tagName: 'g',
+export default Ember.Component.extend(GroupElement, {
   classNames: ['axis', 'Plaid-axis'],
 
   y: 0,
@@ -39,34 +40,32 @@ export default Ember.Component.extend({
   didInsertElement() {
     this._super();
     this.groupElement = select(this.element);
-
-    // const orientation = this.get('orientation');
-    // const scale = this.get('scale');
-
-    // this.axis = this.createAxis(orientation, scale);
-
-    this.drawAxis();
+    scheduleOnce('afterRender', this, this.drawAxis);
   },
 
-  didRender() {
-    this.drawAxis();
+  didReceiveAttrs() {
+    scheduleOnce('afterRender', this, this.drawAxis);
   },
 
   drawAxis() {
+    console.log('drawAxis');
+
     let { y, x, xOffset, yOffset } = this.getProperties('y', 'x', 'xOffset', 'yOffset');
     let scale = this.get('scale');
     let orientation = this.get('orientation');
     let tickFormat = this.get('tickFormat');
 
-    this.axis = this.createAxis(orientation, scale);
-    this.groupElement.call(this.axis);
+    let axis = this.createAxis(orientation, scale);
 
-    this.axis.tickFormat(tickFormat);
+    if (tickFormat) {
+      axis.tickFormat(tickFormat);
+    }
 
-    // this.axis.ticks(this.get('ticks'));
-    this.axis.tickSizeOuter(32);
-    this.axis.tickSizeInner(16);
-    this.axis.scale(scale);
+    axis.tickSizeOuter(8);
+    axis.tickSizeInner(4);
+    axis.scale(scale);
+
+    this.groupElement.call(axis);
     this.groupElement.attr('transform', `translate(${x + xOffset}, ${y + yOffset})`);
   },
 
