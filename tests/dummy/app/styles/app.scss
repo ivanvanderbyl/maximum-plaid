@@ -8,9 +8,14 @@ html, body {
 }
 
 .Plaid-axis {
-  path.domain {
+  path.domain, .tick line {
     stroke-width: 1;
     stroke: black;
     stroke-opacity: 0.54;
+    fill: none;
+  }
+
+  .tick text {
+    font-size: 12px;
   }
 }
