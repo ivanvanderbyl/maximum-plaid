@@ -3,7 +3,7 @@ import { scaleLinear } from 'd3-scale';
 
 export function linearScale([domain, range], hash = {}) {
   let scale = scaleLinear().domain(domain);
-  if (hash.round) {
+  if (hash && hash.round) {
     scale.rangeRound(range);
   } else {
     scale.range(range);
