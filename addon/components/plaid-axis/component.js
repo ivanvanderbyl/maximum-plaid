@@ -1,10 +1,9 @@
 import Ember from 'ember';
 import { select } from 'd3-selection';
-import { format } from 'd3-format';
 import GroupElement from '../../mixins/group-element';
 import { axisTop, axisRight, axisBottom, axisLeft } from 'd3-axis';
 
-const { run: { scheduleOnce }} = Ember;
+const { run: { scheduleOnce } } = Ember;
 
 export default Ember.Component.extend(GroupElement, {
   classNames: ['axis', 'Plaid-axis'],
@@ -48,22 +47,22 @@ export default Ember.Component.extend(GroupElement, {
   },
 
   drawAxis() {
-    console.log('drawAxis');
-
     let { y, x, xOffset, yOffset } = this.getProperties('y', 'x', 'xOffset', 'yOffset');
     let scale = this.get('scale');
     let orientation = this.get('orientation');
     let tickFormat = this.get('tickFormat');
+    let ticks = this.get('ticks');
 
     let axis = this.createAxis(orientation, scale);
 
-    if (tickFormat) {
-      axis.tickFormat(tickFormat);
-    }
-
+    axis.tickFormat(tickFormat);
     axis.tickSizeOuter(8);
     axis.tickSizeInner(4);
     axis.scale(scale);
+
+    if (ticks) {
+      axis.ticks(ticks);
+    }
 
     this.groupElement.call(axis);
     this.groupElement.attr('transform', `translate(${x + xOffset}, ${y + yOffset})`);
