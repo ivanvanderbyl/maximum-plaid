@@ -58,7 +58,7 @@ const PlaidLineComponent = Ember.Component.extend(GroupElement, {
     });
   },
 
-  pathData: computed('values.[]', 'xScale', 'yScale', {
+  pathData: computed('values.[]', 'xScale', 'yScale', 'curve', {
     get() {
       let { values, xScale, yScale, curve } =
         this.getProperties('values', 'xScale', 'yScale', 'curve');
@@ -67,6 +67,11 @@ const PlaidLineComponent = Ember.Component.extend(GroupElement, {
         .curve(curve)
         .x((d) => xScale(d[0]))
         .y((d) => yScale(d[1]));
+
+      if (curve) {
+        lineFn.curve(curve);
+      }
+
       return lineFn(values);
     }
   })
