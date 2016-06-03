@@ -3,6 +3,9 @@
   area=(component "plaid-area" xScale=xScale yScale=yScale x=plotArea.left y=plotArea.top)
   scatter=(component "plaid-scatter" xScale=xScale yScale=yScale x=plotArea.left y=plotArea.top)
   symbol=(component "plaid-symbol" x=plotArea.left y=plotArea.top)
-  bottom-axis=(component "plaid-axis" orientation="bottom" scale=xScale y=plotArea.bottom x=plotArea.left)
-  donut=(component "plaid-donut" outerRadius=plotArea.height innerRadius=(sub plotArea.height 32))
+
+  top-axis=(component "plaid-axis" orientation="top" scale=xScale y=plotArea.top x=plotArea.left)
+  right-axis=(component "plaid-axis" orientation="right" scale=yScale y=plotArea.top x=plotArea.right)
+  bottom-axis=(component "plaid-axis" orientation="bottom" scale=xScale y=(add plotArea.height plotArea.top) x=plotArea.left)
+  left-axis=(component "plaid-axis" orientation="left" scale=yScale y=plotArea.top x=plotArea.left)
 )}}
