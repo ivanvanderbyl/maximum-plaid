@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { extent as arrayExtent } from 'd3-array';
+import { extent as arrayExtent, max } from 'd3-array';
 const { get } = Ember;
 
 export function extent([array, accessor], options) {
@@ -9,10 +9,10 @@ export function extent([array, accessor], options) {
   }
 
   if (options && options.toZero === true) {
-    array.push(0);
+    return [0, max(array)];
+  } else {
+    return arrayExtent(array);
   }
-
-  return arrayExtent(array);
 }
 
 export default Ember.Helper.helper(extent);
