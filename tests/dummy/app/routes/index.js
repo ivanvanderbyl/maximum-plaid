@@ -28,11 +28,6 @@ export default Ember.Route.extend({
 
   setupController(controller, { responseTimeMean }) {
     controller.setProperties({ responseTimeMean });
-
-    window.setInterval(() => {
-      controller.set('curveTension', Math.random());
-      console.log(controller.get('curveTension'));
-    }, 2000);
   }
 
 });

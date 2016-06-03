@@ -6,6 +6,7 @@ import { axisTop, axisRight, axisBottom, axisLeft } from 'd3-axis';
 
 export default Ember.Component.extend({
   tagName: 'g',
+  classNames: ['axis', 'Plaid-axis'],
 
   y: 0,
 
