@@ -1,0 +1,21 @@
+@import "bourbon";
+
+html, body {
+  font-family: system, sans-serif;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+.Plaid-axis {
+  path.domain, .tick line {
+    stroke-width: 1;
+    stroke: black;
+    stroke-opacity: 0.54;
+    fill: none;
+  }
+
+  .tick text {
+    font-size: 12px;
+  }
+}

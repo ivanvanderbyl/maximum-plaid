@@ -1,15 +1,15 @@
 import Ember from 'ember';
 import layout from './template';
+import { area } from 'd3-shape';
 import GroupElement from '../../mixins/group-element';
-import { line, curveMonotoneX } from 'd3-shape';
+import computed from 'ember-computed';
 
 const {
-  computed,
   isPresent,
   String: { dasherize, w }
 } = Ember;
 
-const PlaidLineComponent = Ember.Component.extend(GroupElement, {
+const AreaComponent = Ember.Component.extend(GroupElement, {
   layout,
 
   /**
@@ -37,23 +37,18 @@ const PlaidLineComponent = Ember.Component.extend(GroupElement, {
    */
   values: [],
 
-  stroke: 'black',
-  strokeWidth: 2,
-  strokeOpacity: 1.0,
+  fill: 'black',
 
-  fill: 'none',
-  fillOpacity: null,
-
-  curve: curveMonotoneX,
+  fillOpacity: 1.0,
 
   didRender() {
-    let pathAttrs = this.getProperties(w('stroke strokeWidth strokeOpacity fill fillOpacity'));
-    let line = this.selection.select('path.line');
+    let pathAttrs = this.getProperties(w('fill fillOpacity'));
+    let area = this.selection.select('path.area');
     Object.keys(pathAttrs).forEach((attr) => {
       let value = pathAttrs[attr];
 
       if (isPresent(value)) {
-        line.attr(dasherize(attr), value);
+        area.attr(dasherize(attr), value);
       }
     });
   },
@@ -63,22 +58,22 @@ const PlaidLineComponent = Ember.Component.extend(GroupElement, {
       let { values, xScale, yScale, curve } =
         this.getProperties('values', 'xScale', 'yScale', 'curve');
 
-      let lineFn = line()
-        .curve(curve)
+      let areaFn = area()
         .x((d) => xScale(d[0]))
-        .y((d) => yScale(d[1]));
+        .y1((d) => yScale(d[1]))
+        .y0(yScale(0));
 
       if (curve) {
-        lineFn.curve(curve);
+        areaFn.curve(curve);
       }
 
-      return lineFn(values);
+      return areaFn(values);
     }
   })
 });
 
-PlaidLineComponent.reopenClass({
+AreaComponent.reopenClass({
   positionalParams: ['values']
 });
 
-export default PlaidLineComponent;
+export default AreaComponent;

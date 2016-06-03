@@ -7,6 +7,6 @@ test('creates a scale helper', function(assert) {
   let domain = [0,100];
   let range = [100, 1000];
 
-  let result = linearScale([domain, range])(50);
+  let result = linearScale([domain, range], {})(50);
   assert.equal(result, 550, 'computed correct linear scale value');
 });

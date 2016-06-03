@@ -1,10 +1,10 @@
-import { stepAfter } from 'dummy/helpers/step-after';
+import { format } from 'dummy/helpers/format';
 import { module, test } from 'qunit';
 
-module('Unit | Helper | step after');
+module('Unit | Helper | format');
 
 // Replace this with your real tests.
 test('it works', function(assert) {
-  let result = stepAfter([42]);
+  let result = format([42]);
   assert.ok(result);
 });
