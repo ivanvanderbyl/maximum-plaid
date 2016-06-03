@@ -1,5 +1,5 @@
 import Ember from 'ember';
-const { String: { camelize } } = Ember;
+const { isPresent, assert, String: { camelize } } = Ember;
 
 import {
   curveBasisClosed,
@@ -21,6 +21,10 @@ import {
 } from 'd3-shape';
 
 export function curve([curveName], hash) {
+  if (!hash) {
+    hash = {};
+  }
+
   let curves = {
     basisClosed: curveBasisClosed,
     basisOpen: curveBasisOpen,
@@ -41,7 +45,9 @@ export function curve([curveName], hash) {
     monotoneY: curveMonotoneY
   };
 
-  let curveFn = curves[camelize(curveName)] || curveLinear;
+  let curveFn = curves[camelize(curveName)];
+
+  assert(`No curve with name ${curveName} is available`, isPresent(curveFn));
 
   Object.keys(hash).forEach((key) => {
     if (typeof curveFn[key] === 'function') {
