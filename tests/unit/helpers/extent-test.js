@@ -18,3 +18,13 @@ test('extent of array of objects', function(assert) {
   ], 'value']);
   assert.deepEqual(result, [1,5]);
 });
+
+test('toZero option ensures min is zero', function(assert) {
+  let result = extent([[
+    { value: 2 },
+    { value: 3 },
+    { value: 4 },
+    { value: 5 }
+  ], 'value'], { toZero: true });
+  assert.deepEqual(result, [0,5]);
+});
