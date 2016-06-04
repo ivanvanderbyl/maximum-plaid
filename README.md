@@ -5,106 +5,106 @@
 
 Template driven data visualisation for ambitious applications.
 
-**WIP**
-
 # Design
 
-Traditional charting libraries often times have poor separation of concerns from
-data and presentation. This leads to poor maintainability and code reuse.
+Maximum Plaid is designed to be a high level visualisation library built exclusively for Ember. It uses Ember's templating language to efficiently and declaratively produce easily maintained and tested visualisations.
 
-Another consideration when visualising a dataset is whether you desire _efficiency_
-or _expressiveness_, when you typically can't have both.
+We're building this because traditional charting libraries often times have poor separation of concerns from data and presentation, which leads to poor maintainability and code reuse, as well as exhibiting poor performance with medium to large datasets (10K to 100K data points).
 
-`maximum-plaid` is designed to change this by utilising Ember's declaritive templating 
-and component composition, with D3's leading primitives for producing easy to
-compose data visualisations for both data exploration and explanatory presentation.
+We desire something which exposes abstractions for efficiently expressing a wide variety of visualisations, while balancing expressiveness such that you're not locked in to one particular style of visualisation which doesn't quite express the discoveries you've made in your data.
 
 # Proposed API
 
-On their own, components for even the simplest elements in a visualisation can
-quickly require complicated APIs. To solve this, Ember contextual components can
-provide lower level primitive components with the necessary inputs for scaling
-and positioning. This reduces the API surface for the user to quickly produce
-visualisations in very few lines of code.
+Visualisations are composed in layers, starting with data transformation down to visualisation and interaction.
 
-```hbs
-{{#plaid-plot xScale yScale width height as |plot|}}
-  {{plot.right-axis}}
-  {{plot.line responseTimes}}
-{{/plaid-plot}}
-```
+## Data Transformation
 
-Or perhaps using [ember-d3-scale](https://github.com/spencer516/ember-d3-scale#linear-scale)
+In order to provide a consistent API for each visualisation layer, we do the data setup ahead of time. After you've loaded your data source, you should transform it to the necessary shape for the type of visualisation you're rendering. 
 
-```hbs
-{{#plaid-plot (time-scale (extent timestamps) (extent 0 width)) (linear-scale yDomain yRange) width height as |plot|}}
-  {{plot.right-axis}}
-  {{plot.line responseTimes}}
-{{/plaid-plot}}
-```
+We provide a few helpers to make this easy (more soon).
 
-Ideally width and height would be take into account by just supplying the `plotArea`
-property.
+### Series Transforms
 
-**What about different scales for each line?**
+<a name="pairBy" href="#pairBy">#</a> `pair-by`(<i>attr</i>, [<i>attr2</i>,] <i>series</i>)
 
-If you don't supply a scale, it will be set to `null` by default, which can easily
-be overridden later. In this case we want to keep the xScale consistent.
+> Basically a multi-property `map-by`.
 
-```hbs
-{{#plaid-plot xScale as |plot|}}
-  {{#each metricNames as |metricName|}}
-    {{plot.right-axis scale=(get yScalesForMetrics metricName)}}
-    {{plot.line (get metrics metricName) yScale=(get yScalesForMetrics metricName)}}
-  {{/each}}
-{{/plaid-plot}}
-```
+Takes an array of objects containing discrete properties for each axis of your visualisations, and returns an array of tuples containing only the values for each attribute.
+
+Given the series:
 
 ```js
-// my-line-chart-component
-export default Component.extend({
-  values: {
-    responseTimes: [[1450345980000,1914], ...],
-    concurrency: [[1450345980000,1000], ...],
-    transactionRate: [[1450345980000,80000], ...],
-  },
-
-  metricNames: computed('values.@each', {
-    get() { 
-      const values = this.get('values');
-      return Object.keys(values);
-    }
-  }),
-
-  yScalesForMetrics: computed('values.@each', {
-    get() {
-      const values = this.get('values');
-      const metricNames = this.get('metricNames');
-      let scales = {};
-      metricNames.forEach((metricName) => {
-        scales[metricName] = 
-          this.getScaleForMetricName(metricName, values[metricName]);
-      });
-
-      return scales;
-    }
-  }),
-
-  getScaleForMetricName(metricName, values) {
-    // We use the same yRange for all lines.
-    const yRange = this.get('yRange');
-    const yDomain = this.getDomainForMetricName(metricName, values);
-    // Compute domain based on values and return a scaling function.
-    return scaleLinear().domain(yDomain).range(yRange);
-  },
-
-  getDomainForMetricName(metricName, values) {
-    // We only need the domain for one dimension, because the other needs to
-    // be equal for all lines, in this case; `time`.
-    return extent(values, (d) => d[1]);
-  },
-});
+let timeSeriesData = [
+	{ timestamp: 1450345920000, value: 1, projectId: 200 },
+	{ timestamp: 1450345930000, value: 2, projectId: 200 },
+	{ timestamp: 1450345940000, value: 3, projectId: 200 },
+	{ timestamp: 1450345950000, value: 4, projectId: 200 },
+	{ timestamp: 1450345960000, value: 5, projectId: 200 }
+];
 ```
+
+Using `pair-by` in your template:
+
+```hbs
+{{pair-by "timestamp" "value" timeSeriesData}}
+```
+
+Would produce:
+
+```js
+[
+	[1450345920000, 1],
+	[1450345930000, 2],
+	[1450345940000, 3],
+	[1450345950000, 4],
+	[1450345960000, 5]
+]
+```
+
+Which is ideal for using as the `values` argument to `plaid.line` and `plaid.area`.
+
+## Coordinates
+
+SVG doesn't use the same coordinate space as CSS, so we have to calculate margins manually. To help out with this we've included an `area` helper, which returns an object containing the positioning data for your chart.
+
+<a name="helper_area" href="#helper_area">#</a> `area`(<i>width</i> <i>height</i> [<i>margin="TOP RIGHT BOTTOM LEFT"</i>])
+
+The margin string follows the typical box model margin convention of TOP, RIGHT, BOTTOM, LEFT. All values are unitless and inherit their units from the coordinate space with the SVG context. 
+
+## Presentation
+
+On their own, components for even the simplest elements in a visualisation can quickly require complicated APIs. To solve this, Ember contextual components can provide lower level primitive components with the necessary inputs for scaling and positioning. This reduces the API surface for the user to quickly produce visualisations in very few lines of code.
+
+```hbs
+{{#plaid-plot xScale yScale plotArea as |plot|}}
+  {{plot.right-axis}}
+  {{plot.line values}}
+{{/plaid-plot}}
+```
+
+A more complete example, using scales from [ember-d3-scale](https://github.com/spencer516/ember-d3-scale#linear-scale) and helpers from [ember-composable-helpers](https://github.com/DockYard/ember-composable-helpers)
+
+```hbs
+{{#with (area 720 220 margin="0 50 72 50") as |plotArea|}}
+  {{#plaid-plot
+    (time-scale (extent (map-by "timestamp" responseTimeMean)) (array 0 plotArea.width))
+    (linear-scale (extent (map-by "value" responseTimeMean) toZero=true) (array plotArea.height 0))
+    plotArea as |plot|}}
+
+    {{#with (pair-by "timestamp" "value" responseTimeMean) as |values|}}
+
+      {{plot.line values stroke="#673AB7" strokeWidth="2"  curve=(curve "basis")}}
+      {{plot.area values fill="#D1C4E9" curve=(curve "basis")}}
+      {{plot.bottom-axis values ticks=10}}
+      {{plot.left-axis values tickFormat=(format-fn "0.1s" suffix="ms") ticks=2}}
+    {{/with}}
+  {{/plaid-plot}}
+{{/with}}
+```
+
+This will produce a pretty simple line + area chart:
+
+[![Maximum Plaid Line Chart](/logo/line-chart-screenshot.png)](http://maximum-plaid.com)
 
 # Components
 
