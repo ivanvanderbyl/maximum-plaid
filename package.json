@@ -60,7 +60,7 @@
     "ember-cli-babel": "^5.1.6",
     "ember-cli-htmlbars": "^1.0.5",
     "ember-cli-sass": "5.3.1",
-    "ember-cli-d3-shape": "^0.8.5"
+    "ember-cli-d3-shape": "^0.8.6"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
