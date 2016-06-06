@@ -13,6 +13,7 @@ test('it returns an area hash', function(assert) {
     'outerWidth': 640,
     'right': 624,
     'top': 24,
-    'width': 608
+    'width': 608,
+    'margin': { 'top': 24, 'left': 16, 'bottom': 24, 'right': 16 }
   }, 'contains correct area attributes');
 });
