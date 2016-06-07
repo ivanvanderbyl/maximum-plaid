@@ -34,7 +34,7 @@ export default Ember.Component.extend(GroupElement, {
 
   xOffset: 0,
 
-  yOffset: 8,
+  yOffset: 0,
 
   didInsertElement() {
     this._super();

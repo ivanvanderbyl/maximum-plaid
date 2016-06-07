@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import layout from '../templates/components/plaid-plot';
+import Coordinates from '../mixins/coordinates';
 
-const PlotComponent = Ember.Component.extend({
+const PlotComponent = Ember.Component.extend(Coordinates, {
   layout,
 
   tagName: 'svg',
@@ -24,7 +25,7 @@ const PlotComponent = Ember.Component.extend({
    * @public
    * @type {D3 Scale}
    */
-  yScale: null,
+  yScale: null
 
   /**
    * Represents the coordinates to render the main graphic.
@@ -36,7 +37,7 @@ const PlotComponent = Ember.Component.extend({
    * @public
    * @type {Object}
    */
-  plotArea: {}
+  //  plotArea: {}
 
 });
 

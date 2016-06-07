@@ -39,7 +39,13 @@ export default Ember.Mixin.create({
         height: height - margin.top - margin.bottom,
         width: width - margin.left - margin.right,
         outerWidth: width,
-        outerHeight: height
+        outerHeight: height,
+        margin: {
+          top: margin.top,
+          left: margin.left,
+          bottom: margin.bottom,
+          right: margin.right
+        }
       };
     }
   })
