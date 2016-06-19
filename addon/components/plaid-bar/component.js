@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import GroupElement from '../../mixins/group-element';
-import { select } from 'd3-selection';
 
 const {
   Component,
@@ -40,12 +39,6 @@ const PlaidBarComponent = Component.extend(GroupElement, {
 
   fillOpacity: 1.0,
 
-  didInsertElement() {
-    this._super(...arguments);
-    this.groupElement = select(this.element);
-    scheduleOnce('afterRender', this, this.drawBars);
-  },
-
   didReceiveAttrs() {
     this._super(...arguments);
     scheduleOnce('afterRender', this, this.drawBars);
@@ -57,7 +50,7 @@ const PlaidBarComponent = Component.extend(GroupElement, {
 
     let height = Math.max(...yScale.range());
 
-    this.groupElement.selectAll('.bar').data(values).enter().append('rect')
+    this.selection.selectAll('.bar').data(values).enter().append('rect')
       .attr('class', 'bar')
       .attr('x', (d) => xScale(d[0]))
       .attr('width', () => xScale.bandwidth())
