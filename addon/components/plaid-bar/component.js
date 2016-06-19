@@ -40,8 +40,6 @@ const PlaidBarComponent = Component.extend(GroupElement, {
 
   fillOpacity: 1.0,
 
-  height: null,
-
   didInsertElement() {
     this._super(...arguments);
     this.groupElement = select(this.element);
@@ -54,8 +52,10 @@ const PlaidBarComponent = Component.extend(GroupElement, {
   },
 
   drawBars() {
-    let { values, xScale, yScale, height, fill, fillOpacity } =
-      getProperties(this, 'values', 'xScale', 'yScale', 'height', 'fill', 'fillOpacity');
+    let { values, xScale, yScale, fill, fillOpacity } =
+      getProperties(this, 'values', 'xScale', 'yScale', 'fill', 'fillOpacity');
+
+    let height = Math.max(...yScale.range());
 
     this.groupElement.selectAll('.bar').data(values).enter().append('rect')
       .attr('class', 'bar')
