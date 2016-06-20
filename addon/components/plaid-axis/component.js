@@ -6,6 +6,7 @@ import { axisTop, axisRight, axisBottom, axisLeft } from 'd3-axis';
 const { run: { scheduleOnce } } = Ember;
 
 export default Ember.Component.extend(GroupElement, {
+  layout: null,
   classNames: ['axis', 'Plaid-axis'],
 
   y: 0,
