@@ -2,9 +2,19 @@ import Ember from 'ember';
 import GroupElement from '../../mixins/group-element';
 import { axisTop, axisRight, axisBottom, axisLeft } from 'd3-axis';
 
-const { run: { scheduleOnce } } = Ember;
+const {
+  Component,
+  run: { scheduleOnce }
+} = Ember;
 
-export default Ember.Component.extend(GroupElement, {
+const AXIS_MAP = {
+  top: axisTop,
+  right: axisRight,
+  bottom: axisBottom,
+  left: axisLeft
+};
+
+export default Component.extend(GroupElement, {
   layout: null,
   classNames: [ 'axis', 'Plaid-axis' ],
   classNameBindings: [ 'orientation' ],
@@ -85,11 +95,6 @@ export default Ember.Component.extend(GroupElement, {
   },
 
   createAxis(orient, scale) {
-    return {
-      top: axisTop(scale),
-      right: axisRight(scale),
-      bottom: axisBottom(scale),
-      left: axisLeft(scale)
-    }[orient];
+    return AXIS_MAP[orient](scale);
   }
 });
