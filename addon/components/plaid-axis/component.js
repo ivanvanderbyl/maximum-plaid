@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import { select } from 'd3-selection';
 import GroupElement from '../../mixins/group-element';
 import { axisTop, axisRight, axisBottom, axisLeft } from 'd3-axis';
 
@@ -38,12 +37,6 @@ export default Ember.Component.extend(GroupElement, {
 
   yOffset: 0,
 
-  didInsertElement() {
-    this._super();
-    this.groupElement = select(this.element);
-    scheduleOnce('afterRender', this, this.drawAxis);
-  },
-
   didReceiveAttrs() {
     scheduleOnce('afterRender', this, this.drawAxis);
   },
@@ -66,8 +59,8 @@ export default Ember.Component.extend(GroupElement, {
       axis.ticks(ticks);
     }
 
-    this.groupElement.call(axis);
-    this.groupElement.attr('transform', `translate(${x + xOffset}, ${y + yOffset})`);
+    this.selection.call(axis);
+    this.selection.attr('transform', `translate(${x + xOffset}, ${y + yOffset})`);
   },
 
   createAxis(orient, scale) {
