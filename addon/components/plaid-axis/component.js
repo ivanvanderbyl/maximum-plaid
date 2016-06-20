@@ -7,7 +7,8 @@ const { run: { scheduleOnce } } = Ember;
 
 export default Ember.Component.extend(GroupElement, {
   layout: null,
-  classNames: ['axis', 'Plaid-axis'],
+  classNames: [ 'axis', 'Plaid-axis' ],
+  classNameBindings: [ 'orientation' ],
 
   y: 0,
 
