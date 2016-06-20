@@ -65,3 +65,37 @@ test('it should bind the orientation as a class', function(assert) {
 
   assert.ok(this.$('.axis.left').length, 'axis is there');
 });
+
+test('it should allow tick size to be customized', function(assert) {
+  this.set('timeSeriesData', [
+    { timestamp: 1450345920000, value: 1, projectId: 200 },
+    { timestamp: 1450345930000, value: 2, projectId: 200 },
+    { timestamp: 1450345940000, value: 3, projectId: 200 },
+    { timestamp: 1450345950000, value: 4, projectId: 200 },
+    { timestamp: 1450345960000, value: 5, projectId: 200 }
+  ]);
+
+  this.render(hbs`
+    {{#with (area 664 220 margin="0 50 72 16") as |plotArea|}}
+      {{#plaid-plot
+          (time-scale (extent (map-by "timestamp" timeSeriesData)) (array 0 plotArea.width))
+          (linear-scale (extent (map-by "value" timeSeriesData) toZero=true) (array plotArea.height 0))
+          plotArea as |plot|}}
+
+        {{#with (pair-by "timestamp" "value" timeSeriesData) as |values|}}
+          {{plot.left-axis values ticks=values.length tickSizeInner=(mult -1 plotArea.width)}}
+        {{/with}}
+      {{/plaid-plot}}
+    {{/with}}
+  `);
+
+  assert.equal(this.$('.axis').length, 1, 'number of axes');
+
+  let ticks = this.$('.tick');
+  assert.equal(ticks.length, this.get('timeSeriesData.length') + 1, 'number of ticks');
+
+  for (let i = 0; i < ticks.length; ++i) {
+    // TODO: would be nice to not magic number the width of 598
+    assert.equal(this.$(ticks[i]).find('line').attr('x2'), 598, `tick ${i} width`);
+  }
+});

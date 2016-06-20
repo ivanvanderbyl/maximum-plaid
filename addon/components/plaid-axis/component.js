@@ -33,6 +33,10 @@ export default Ember.Component.extend(GroupElement, {
 
   tickFormat: null,
 
+  tickSizeInner: 4,
+
+  tickSizeOuter: 8,
+
   xOffset: 0,
 
   yOffset: 0,
@@ -42,17 +46,13 @@ export default Ember.Component.extend(GroupElement, {
   },
 
   drawAxis() {
-    let { y, x, xOffset, yOffset } = this.getProperties('y', 'x', 'xOffset', 'yOffset');
-    let scale = this.get('scale');
-    let orientation = this.get('orientation');
-    let tickFormat = this.get('tickFormat');
-    let ticks = this.get('ticks');
+    let { y, x, xOffset, yOffset, scale, orientation, tickFormat, ticks, tickSizeInner, tickSizeOuter } =
+      this.getProperties('y', 'x', 'xOffset', 'yOffset', 'scale', 'orientation', 'tickFormat', 'ticks', 'tickSizeInner', 'tickSizeOuter');
 
     let axis = this.createAxis(orientation, scale);
 
     axis.tickFormat(tickFormat);
-    axis.tickSizeOuter(8);
-    axis.tickSizeInner(4);
+    axis.tickSize(tickSizeInner, tickSizeOuter);
     axis.scale(scale);
 
     if (ticks) {
