@@ -31,10 +31,31 @@ export default Ember.Component.extend(GroupElement, {
    */
   scale: null,
 
+  /**
+   * The format used for the ticks for this axis.
+   * [See D3 docs for more details](https://github.com/d3/d3/wiki/SVG-Axes#tickFormat)
+   *
+   * @public
+   * @type {Function}
+   */
   tickFormat: null,
 
+  /**
+   * The inner tick size for the ticks for this axis.
+   * [See D3 docs for more details](https://github.com/d3/d3/wiki/SVG-Axes#innerTickSize)
+   *
+   * @public
+   * @type {Number}
+   */
   tickSizeInner: 4,
 
+  /**
+   * The outer tick size for the ticks for this axis.
+   * [See D3 docs for more details](https://github.com/d3/d3/wiki/SVG-Axes#outerTickSize)
+   *
+   * @public
+   * @type {Number}
+   */
   tickSizeOuter: 8,
 
   xOffset: 0,
