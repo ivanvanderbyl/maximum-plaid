@@ -25,7 +25,7 @@ const PlaidTextComponent = Component.extend({
   textLength: null,
   lengthAdjust: null,
 
-  text: null,
+  value: null,
   textRotate: 0,
 
   transform: computed('x', 'y', 'textRotate', {
@@ -37,7 +37,7 @@ const PlaidTextComponent = Component.extend({
 });
 
 PlaidTextComponent.reopenClass({
-  positionalParams: [ 'text' ]
+  positionalParams: [ 'value' ]
 });
 
 export default PlaidTextComponent;
