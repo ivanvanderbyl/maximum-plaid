@@ -45,6 +45,11 @@ const PlaidBarComponent = Component.extend(GroupElement, {
   */
   values: [],
 
+  /**
+    @private
+  */
+  drawnValues: [],
+
   fill: 'black',
 
   fillOpacity: 1.0,
@@ -65,8 +70,8 @@ const PlaidBarComponent = Component.extend(GroupElement, {
   },
 
   drawBars() {
-    let { values, xScale, yScale, fill, fillOpacity, orientation } =
-      getProperties(this, 'values', 'xScale', 'yScale', 'fill', 'fillOpacity', 'orientation');
+    let { values, drawnValues, xScale, yScale, fill, fillOpacity, orientation } =
+      getProperties(this, 'values', 'drawnValues', 'xScale', 'yScale', 'fill', 'fillOpacity', 'orientation');
 
     let x, width, y, height;
 
@@ -83,7 +88,13 @@ const PlaidBarComponent = Component.extend(GroupElement, {
       height = yScale.bandwidth();
     }
 
-    this.selection.selectAll('.bar').data(values).enter().append('rect')
+    let bars = this.selection.selectAll('.bar');
+
+    if (values !== drawnValues || values.length !== drawnValues.length) {
+      bars = bars.data(values).enter().append('rect');
+    }
+
+    bars
       .attr('class', 'bar')
       .attr('x', x)
       .attr('width', width)
@@ -91,6 +102,8 @@ const PlaidBarComponent = Component.extend(GroupElement, {
       .attr('height', height)
       .attr('fill', fill)
       .attr('fillOpacity', fillOpacity);
+
+    this.drawnValues = values;
   }
 });
 
