@@ -64,8 +64,22 @@ const PlaidBarStackedComponent = Component.extend(GroupElement, {
   },
 
   drawBars() {
-    let { values, xScale, yScale, stackBy, colorScale } =
-      getProperties(this, 'values', 'xScale', 'yScale', 'stackBy', 'colorScale');
+    let { values, xScale, yScale, stackBy, colorScale, orientation } =
+      getProperties(this, 'values', 'xScale', 'yScale', 'stackBy', 'colorScale', 'orientation');
+
+    let x, width, y, height;
+
+    if (orientation === 'vertical') {
+      x = (d) => xScale(d.data[stackBy]);
+      width = xScale.bandwidth;
+      y = (d) => yScale(d[1]);
+      height = (d) => yScale(d[0]) - yScale(d[1]);
+    } else {
+      x = (d) => xScale(d[0]);
+      width = (d) => xScale(d[1]) - xScale(d[0]);
+      y = (d) => yScale(d.data[stackBy]);
+      height = yScale.bandwidth;
+    }
 
     this.selection.selectAll('.bar-group').data(values).enter().append('g')
       .attr('class', (d) => `bar-group ${d.key}`)
@@ -76,10 +90,10 @@ const PlaidBarStackedComponent = Component.extend(GroupElement, {
       })
       .selectAll('.bar').data((d) => d).enter().append('rect')
         .attr('class', 'bar')
-        .attr('x', (d) => xScale(d.data[stackBy]))
-        .attr('width', xScale.bandwidth)
-        .attr('y', (d) => yScale(d[1]))
-        .attr('height', (d) => yScale(d[0]) - yScale(d[1]));
+        .attr('x', x)
+        .attr('width', width)
+        .attr('y', y)
+        .attr('height', height);
   }
 });
 
