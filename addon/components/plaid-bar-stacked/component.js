@@ -45,6 +45,11 @@ const PlaidBarStackedComponent = Component.extend(GroupElement, {
   */
   values: [],
 
+  /**
+    @private
+  */
+  drawnValues: [],
+
   stackBy: null,
   colorScale: null,
 
@@ -81,19 +86,35 @@ const PlaidBarStackedComponent = Component.extend(GroupElement, {
       height = yScale.bandwidth;
     }
 
-    this.selection.selectAll('.bar-group').data(values).enter().append('g')
+    const appendElements = values !== this.drawnValues || values.length !== this.drawnValues.length;
+
+    let barGroups = this.selection.selectAll('.bar-group');
+
+    if (appendElements) {
+      barGroups = barGroups.data(values).enter().append('g');
+    }
+
+    let bars = barGroups
       .attr('class', (d) => `bar-group ${d.key}`)
       .attr('fill', (d) => {
         if (colorScale) {
           return colorScale(d.key);
         }
       })
-      .selectAll('.bar').data((d) => d).enter().append('rect')
-        .attr('class', 'bar')
-        .attr('x', x)
-        .attr('width', width)
-        .attr('y', y)
-        .attr('height', height);
+      .selectAll('.bar');
+
+    if (appendElements) {
+      bars = bars.data((d) => d).enter().append('rect');
+    }
+
+    bars
+      .attr('class', 'bar')
+      .attr('x', x)
+      .attr('width', width)
+      .attr('y', y)
+      .attr('height', height);
+
+    this.drawnValues = values;
   }
 });
 
