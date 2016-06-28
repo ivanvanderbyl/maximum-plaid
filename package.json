@@ -60,7 +60,7 @@
     "ember-math-helpers": "1.0.0",
     "ember-d3-scale": "0.1.5",
     "ember-composable-helpers": "0.26.0",
-    "ember-cli-d3-shape": "^0.9.2"
+    "ember-cli-d3-shape": "^0.9.3"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
