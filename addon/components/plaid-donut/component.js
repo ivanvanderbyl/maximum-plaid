@@ -9,6 +9,7 @@ const {
   computed,
   get,
   getProperties,
+  run,
   run: { scheduleOnce }
 } = Ember;
 
@@ -37,6 +38,10 @@ const DonutComponent = Component.extend(GroupElement, {
   cornerRadius: 8,
   colorScale: interpolateCool,
   padDegrees: 5,
+
+  onArcClick: null,
+  onArcEnter: null,
+  onArcLeave: null,
 
   drawnValues: [],
 
@@ -77,11 +82,14 @@ const DonutComponent = Component.extend(GroupElement, {
       arcs = arcs.data(piedValues).enter()
         .append('g')
           .attr('class', 'arc')
-          .append('path');
+          .append('path')
+          .on('click', (d) => run(this, this.sendAction, 'onArcClick', d.data[0]))
+          .on('mouseenter', (d) => run(this, this.sendAction, 'onArcEnter', d.data[0]))
+          .on('mouseleave', (d) => run(this, this.sendAction, 'onArcLeave', d.data[0]));
     }
 
     arcs
-      .attr('fill', (d) => colorScale(d.index))
+      .attr('fill', (d) => colorScale(d.data[0]))
       .attr('d', arc);
   }
 });
