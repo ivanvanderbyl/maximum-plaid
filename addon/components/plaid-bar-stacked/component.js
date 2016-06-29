@@ -90,7 +90,7 @@ const PlaidBarStackedComponent = Component.extend(GroupElement, {
       height = yScale.bandwidth;
     }
 
-    const appendElements = values !== this.drawnValues || values.length !== this.drawnValues.length;
+    let appendElements = values !== this.drawnValues || values.length !== this.drawnValues.length;
 
     let barGroups = this.selection.selectAll('.bar-group');
 
