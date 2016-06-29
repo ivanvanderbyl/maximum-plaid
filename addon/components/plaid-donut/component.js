@@ -82,6 +82,7 @@ const DonutComponent = Component.extend(GroupElement, {
       arcs = arcs.data(piedValues).enter()
         .append('g')
           .attr('class', 'arc')
+          .attr('data-title', (d) => d.data[0])
           .append('path')
           .on('click', (d) => run(this, this.sendAction, 'onArcClick', d.data[0]))
           .on('mouseenter', (d) => run(this, this.sendAction, 'onArcEnter', d.data[0]))
@@ -90,6 +91,7 @@ const DonutComponent = Component.extend(GroupElement, {
 
     arcs
       .attr('fill', (d) => colorScale(d.data[0]))
+      .attr('stroke', (d) => colorScale(d.data[0]))
       .attr('d', arc);
   }
 });
