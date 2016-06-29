@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import GroupElement from '../../mixins/group-element';
+import { max, min } from 'd3-array';
 
 const {
   assert,
@@ -76,13 +77,13 @@ const PlaidBarComponent = Component.extend(GroupElement, {
     let x, width, y, height;
 
     if (orientation === 'vertical') {
-      let maxHeight = Math.max(...yScale.range());
+      let maxHeight = max(yScale.range());
       x = (d) => xScale(d[0]);
       width = xScale.bandwidth();
       y = (d) => yScale(d[1]);
       height = (d) => maxHeight - yScale(d[1]);
     } else {
-      x = Math.min(...xScale.range());
+      x = min(xScale.range());
       width = (d) => xScale(d[0]);
       y = (d) => yScale(d[1]);
       height = yScale.bandwidth();
