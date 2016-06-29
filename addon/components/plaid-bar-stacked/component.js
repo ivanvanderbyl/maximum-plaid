@@ -61,9 +61,13 @@ const PlaidBarStackedComponent = Component.extend(GroupElement, {
     assert(`bar chart orientation must be in {vertical,horizontal}, was "${orientation}"`,
       orientation === 'vertical' || orientation === 'horizontal');
 
+    let scales = getProperties(this, 'xScale', 'yScale');
+    assert('xScale is required', scales.xScale);
+    assert('yScale is required', scales.yScale);
+
     let checkScale = orientation === 'vertical' ? 'xScale' : 'yScale';
 
-    assert(`${checkScale} must be a band-scale for ${orientation} bar charts`, typeOf(this.get(checkScale).bandwidth) === 'function');
+    assert(`${checkScale} must be a band-scale for ${orientation} bar charts`, typeOf(scales[checkScale].bandwidth) === 'function');
 
     scheduleOnce('afterRender', this, this.drawBars);
   },
