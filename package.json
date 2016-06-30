@@ -63,6 +63,7 @@
     "ember-cli-d3-shape": "^0.8.6"
   },
   "ember-addon": {
-    "configPath": "tests/dummy/config"
+    "configPath": "tests/dummy/config",
+    "demoURL": "http://ivanvanderbyl.github.io/maximum-plaid-gallery"
   }
 }
