@@ -1,4 +1,4 @@
-{{#with (area 664 220 margin="0 50 72 16") as |plotArea|}}
+{{#with (area 664 220 margin="0 75 72 16") as |plotArea|}}
   {{#plaid-plot
     (time-scale (extent (map-by "timestamp" responseTimeMean)) (array 0 plotArea.width))
     (linear-scale (extent (map-by "value" responseTimeMean) toZero=true) (array plotArea.height 0))
@@ -7,8 +7,12 @@
     {{#with (pair-by "timestamp" "value" responseTimeMean) as |values|}}
       {{plot.line values stroke="#673AB7" strokeWidth="2"  curve=(curve "basis")}}
       {{plot.area values fill="#D1C4E9" curve=(curve "basis")}}
-      {{plot.bottom-axis values ticks=10}}
-      {{plot.right-axis values tickFormat=(format-fn "0.1s" suffix="ms") ticks=2}}
+      {{#plot.bottom-axis values ticks=10}}
+        {{plaid-text 'Timestamps' class='axis-title' x=(div plotArea.width 2) y=40}}
+      {{/plot.bottom-axis}}
+      {{#plot.right-axis values tickFormat=(format-fn "0.1s" suffix="ms") ticks=2}}
+        {{plaid-text 'Values' class='axis-title' x=50 y=(div plotArea.height 2) textRotate=90}}
+      {{/plot.right-axis}}
 
       {{!-- {{#plot.scatter values as |x y|}}
         <circle cx={{x}} cy={{y}} r="2.5" fill="black" />
