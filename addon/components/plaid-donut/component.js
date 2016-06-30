@@ -2,8 +2,8 @@ import { arc, pie } from  'd3-shape';
 import Ember from 'ember';
 import layout from './template';
 import GroupElement from '../../mixins/group-element';
-import { interpolateCool } from 'd3-scale';
-
+import { interpolateCool, interpolateInferno,scaleSequential } from 'd3-scale';
+import { color } from 'd3-color';
 const {
   Component,
   computed,
@@ -35,8 +35,8 @@ const DonutComponent = Component.extend(GroupElement, {
     return get(this, 'radius');
   }),
 
-  cornerRadius: 8,
-  colorScale: interpolateCool,
+  cornerRadius: 5,
+  colorInterpolator: interpolateInferno,
   padDegrees: 5,
 
   drawnValues: [],
@@ -70,11 +70,14 @@ const DonutComponent = Component.extend(GroupElement, {
   }),
 
   draw() {
-    let { piedValues: values, arc, colorScale } = getProperties(this, 'piedValues', 'arc', 'colorScale');
+    let { piedValues: values, arc, colorInterpolator } = getProperties(this, 'piedValues', 'arc', 'colorInterpolator');
     let arcs = this.selection.selectAll('g.arc');
     let join = arcs.data(values);
     // DATA REMOVE
     join.exit().remove();
+
+    // Use a colour interpolator to render the colour for each bar.
+    let arcColorScale = scaleSequential(colorInterpolator).domain([0, values.length]);
 
     // DATA ENTER
     let enterJoin = join.enter().append('g').attr('class', 'arc');
@@ -85,8 +88,12 @@ const DonutComponent = Component.extend(GroupElement, {
       .attr('data-title', (d) => d.data[0])
       .select('path')
         .attr('d', arc)
-        .attr('fill', (d) => colorScale(d.data[0]))
-        .attr('stroke', (d) => colorScale(d.data[0]))
+        .attr('fill', (d,i) => {
+          let c = color(arcColorScale(i));
+          c.opacity = 0.54;
+          return c.toString();
+        })
+        .attr('stroke', (d,i) => arcColorScale(i))
         .on('click', (d) => run(this, this.sendAction, 'on-click', d.data[0]))
         .on('mouseenter', (d) => run(this, this.sendAction, 'on-enter', d.data[0]))
         .on('mouseleave', (d) => run(this, this.sendAction, 'on-leave', d.data[0]));
