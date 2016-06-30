@@ -2,56 +2,102 @@ import { arc, pie } from  'd3-shape';
 import Ember from 'ember';
 import layout from './template';
 import GroupElement from '../../mixins/group-element';
-import { interpolate as d3Interpolate } from 'd3-interpolate';
+import { interpolateCool } from 'd3-scale';
 
-function arcTween(a) {
-  delete a.index;
-  let i = d3Interpolate(this._current, a);
-  this._current = i(0);
-  return function(t) {
-    return arc(i(t));
-  };
-}
+const {
+  Component,
+  computed,
+  get,
+  getProperties,
+  run,
+  run: { scheduleOnce }
+} = Ember;
 
-const DonutComponent = Ember.Component.extend(GroupElement, {
+const DonutComponent = Component.extend(GroupElement, {
   layout,
 
-  innerRadius: 0,
-  outerRadius: 200,
+  radius: computed('width', 'height', function() {
+    let { width, height } = getProperties(this, 'width', 'height');
+    return Math.min(width, height) / 2;
+  }),
 
-  pieFn() {
-    return pie().padAngle(5 / 360);
+  transform: computed('width', 'height', function() {
+    let { width, height } = getProperties(this, 'width', 'height');
+
+    return `translate(${width / 2},${height / 2})`;
+  }),
+
+  innerRadius: computed('radius', function() {
+    return get(this, 'radius') - 32;
+  }),
+
+  outerRadius: computed('radius', function() {
+    return get(this, 'radius');
+  }),
+
+  cornerRadius: 8,
+  colorScale: interpolateCool,
+  padDegrees: 5,
+
+  onArcClick: null,
+  onArcEnter: null,
+  onArcLeave: null,
+
+  drawnValues: [],
+
+  didReceiveAttrs() {
+    this._super(...arguments);
+
+    scheduleOnce('afterRender', this, this.draw);
   },
 
-  arcFn() {
+  pie: computed('padDegrees', function() {
+    return pie()
+      .padAngle(get(this, 'padDegrees') / 360)
+      .value((d) => d[1]);
+  }),
+
+  piedValues: computed('pie', 'values.[]', function() {
+    let { values, pie } = getProperties(this, 'values', 'pie');
+
+    return pie(values);
+  }),
+
+  arc: computed('cornerRadius', 'innerRadius', 'outerRadius', function() {
+    let { cornerRadius, innerRadius, outerRadius } =
+      getProperties(this, 'cornerRadius', 'innerRadius', 'outerRadius');
+
     return arc()
-      .cornerRadius(8)
-      .innerRadius(this.get('innerRadius'))
-      .outerRadius(this.get('outerRadius'));
-  },
+      .cornerRadius(cornerRadius)
+      .innerRadius(innerRadius)
+      .outerRadius(outerRadius);
+  }),
 
   draw() {
-    let values = this.get('values');
-    let arcs = this.pieFn()(values);
-    let arc = this.arcFn();
-    let colorScale = this.get('colorScale');
+    let { piedValues, arc, colorScale } = getProperties(this, 'piedValues', 'arc', 'colorScale');
 
-    let plot = this.selection;
+    let arcs = this.selection.selectAll('.arc path');
 
-    let join = plot.selectAll('path').data(arcs);
-    join.enter().append('path')
-      .attr('fill', (d) => colorScale(d.index))
-      .attr('d', arc)
-      .each((d) => {
-        this._current = d;
-      });
-    join.exit().select('path').remove();
-    join.transition().duration(500).attrTween('d', arcTween);
+    if (piedValues !== this.drawnValues || piedValues.length !== this.drawnValues.length) {
+      arcs = arcs.data(piedValues).enter()
+        .append('g')
+          .attr('class', 'arc')
+          .attr('data-title', (d) => d.data[0])
+          .append('path')
+          .on('click', (d) => run(this, this.sendAction, 'onArcClick', d.data[0]))
+          .on('mouseenter', (d) => run(this, this.sendAction, 'onArcEnter', d.data[0]))
+          .on('mouseleave', (d) => run(this, this.sendAction, 'onArcLeave', d.data[0]));
+    }
+
+    arcs
+      .attr('fill', (d) => colorScale(d.data[0]))
+      .attr('stroke', (d) => colorScale(d.data[0]))
+      .attr('d', arc);
   }
 });
 
 DonutComponent.reopenClass({
-  positionalParams: ['values']
+  positionalParams: [ 'values' ]
 });
 
 export default DonutComponent;
