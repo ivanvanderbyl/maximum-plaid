@@ -1,6 +1,8 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import wait from 'ember-test-helpers/wait';
+import {path} from 'd3-path';
+import { normalizePath } from '../../../helpers/path-equal-helper';
 
 moduleForComponent('plaid-bar', 'Integration | Component | plaid bar', {
   integration: true
@@ -48,11 +50,12 @@ test('it renders a vertical bar chart', function(assert) {
         let bar = bars[i];
         let barVehicles = this.get(`fuelEconomy.${i}.vehicles`);
 
-        assert.equal(bar.getAttribute('y'), 1000 - barVehicles, `bar ${i} y`);
-        assert.equal(bar.getAttribute('height'), barVehicles, `bar ${i} height`);
+        // Generate a path of a normal rect and compare to what was rendered in
+        // that position
+        let p = path();
+        p.rect(i * 10, 1000 - barVehicles, 10, barVehicles);
 
-        assert.equal(bar.getAttribute('x'), i * 10, `bar ${i} x`);
-        assert.equal(bar.getAttribute('width'), 10, `bar ${i} width`);
+        assert.equal(bar.getAttribute('d'), p.toString(), `bar ${i} d`);
       }
     });
 });
@@ -116,11 +119,10 @@ test('it renders correctly on resize', function(assert) {
         let bar = bars[i];
         let barVehicles = this.get(`fuelEconomy.${i}.vehicles`);
 
-        assert.equal(bar.getAttribute('y'), 1000 - barVehicles, `bar ${i} y`);
-        assert.equal(bar.getAttribute('height'), barVehicles, `bar ${i} height`);
+        let p = path();
+        p.rect(i * 10, 1000 - barVehicles, 10, barVehicles);
 
-        assert.equal(bar.getAttribute('x'), i * 10, `bar ${i} x`);
-        assert.equal(bar.getAttribute('width'), 10, `bar ${i} width`);
+        assert.equal(normalizePath(bar.getAttribute('d')), normalizePath(p.toString()), `bar ${i} d`);
       }
     });
 });
@@ -143,10 +145,10 @@ test('it renders a horizontal bar chart', function(assert) {
   this.render(hbs`
     {{#with (area 1000 110) as |plotArea|}}
       {{#plaid-plot
-          xScale=(linear-scale (extent (map-by 'vehicles' fuelEconomy) toZero=true) (array 0 plotArea.width))
-          yScale=(band-scale (map-by 'mpg' fuelEconomy) (array 0 plotArea.height))
-          plotArea=plotArea as |plot|}}
-
+          (linear-scale (extent (map-by 'vehicles' fuelEconomy) toZero=true) (array 0 plotArea.width))
+          (band-scale (map-by 'mpg' fuelEconomy) (array 0 plotArea.height))
+          plotArea
+        as |plot|}}
         {{#with (pair-by 'vehicles' 'mpg' fuelEconomy) as |values|}}
 
           {{plot.bar values orientation='horizontal'}}
@@ -166,11 +168,16 @@ test('it renders a horizontal bar chart', function(assert) {
         let bar = bars[i];
         let barVehicles = this.get(`fuelEconomy.${i}.vehicles`);
 
-        assert.equal(bar.getAttribute('y'), i * 10, `bar ${i} y`);
-        assert.equal(bar.getAttribute('height'), 10, `bar ${i} height`);
+        let p = path();
+        p.rect(0, i * 10, barVehicles, 10);
 
-        assert.equal(bar.getAttribute('x'), 0, `bar ${i} x`);
-        assert.equal(bar.getAttribute('width'), barVehicles, `bar ${i} width`);
+        assert.equal(bar.getAttribute('d'), p.toString(), `bar ${i} d`);
+
+        // assert.equal(bar.getAttribute('y'), i * 10, `bar ${i} y`);
+        // assert.equal(bar.getAttribute('height'), 10, `bar ${i} height`);
+
+        // assert.equal(bar.getAttribute('x'), 0, `bar ${i} x`);
+        // assert.equal(bar.getAttribute('width'), barVehicles, `bar ${i} width`);
       }
     });
 });
@@ -216,11 +223,10 @@ test('it defaults to vertical orientation', function(assert) {
         let bar = bars[i];
         let barVehicles = this.get(`fuelEconomy.${i}.vehicles`);
 
-        assert.equal(bar.getAttribute('y'), 1000 - barVehicles, `bar ${i} y`);
-        assert.equal(bar.getAttribute('height'), barVehicles, `bar ${i} height`);
+        let p = path();
+        p.rect(i * 10, 1000 - barVehicles, 10, barVehicles);
 
-        assert.equal(bar.getAttribute('x'), i * 10, `bar ${i} x`);
-        assert.equal(bar.getAttribute('width'), 10, `bar ${i} width`);
+        assert.equal(bar.getAttribute('d'), p.toString(), `bar ${i} d`);
       }
     });
 });

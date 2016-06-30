@@ -94,7 +94,7 @@ const PlaidBarComponent = Component.extend(GroupElement, {
     } else {
       pathData = function(d) {
         let p = path();
-        p.rect(x(d), y(d), width, height);
+        p.rect(x(d), y(d), width(d), height(d));
         return p;
       };
     }
@@ -115,10 +115,6 @@ const PlaidBarComponent = Component.extend(GroupElement, {
     // ENTER + UPDATE
     enterJoin.merge(bars)
       .attr('d', pathData)
-    .attr('x', x)
-    .attr('width', width)
-    .attr('y', y)
-    .attr('height', height)
     .attr('fill', fill)
     .attr('fillOpacity', fillOpacity);
   }

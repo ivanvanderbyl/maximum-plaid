@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import { path } from 'd3-path';
-import { max } from 'd3-array';
 import box from '../utils/box-expression';
 
 // Borrowed from d3 v3 core.

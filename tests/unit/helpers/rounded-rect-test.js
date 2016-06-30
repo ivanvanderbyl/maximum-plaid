@@ -21,7 +21,7 @@ test('computes a rounded rectangle path verically', function(assert) {
   let height = (d) => maxHeight - yScale(d[1]);
 
   let result = pathData(x, y, width, height)([10, 10]).toString();
-  assert.deepEqual(result, 'M40,90M45,90L55,90Q60,90,60,95L60,100Q60,100,60,100L40,100Q40,100,40,100L40,95Q40,90,45,90Z', 'computed a valid path data');
+  assert.deepEqual(result, 'M45,90L55,90Q60,90,60,95L60,100Q60,100,60,100L40,100Q40,100,40,100L40,95Q40,90,45,90Z', 'computed a valid path data');
 });
 
 test('computes a rounded rectangle path horizontally', function(assert) {
@@ -35,6 +35,6 @@ test('computes a rounded rectangle path horizontally', function(assert) {
   let height = yScale.bandwidth();
 
   let result = pathData(x, y, width, height)([10, 10]).toString();
-  assert.deepEqual(result, 'M0,40M5,40L85,40Q90,40,90,45L90,60Q90,60,90,60L0,60Q0,60,0,60L0,45Q0,40,5,40Z', 'computed a valid path data');
+  assert.deepEqual(result, 'M5,40L85,40Q90,40,90,45L90,60Q90,60,90,60L0,60Q0,60,0,60L0,45Q0,40,5,40Z', 'computed a valid path data');
 });
 
