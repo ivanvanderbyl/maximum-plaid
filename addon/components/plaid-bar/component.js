@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import GroupElement from '../../mixins/group-element';
 import { max, min } from 'd3-array';
-
+import { path } from 'd3-path';
 const {
   assert,
   Component,
@@ -50,6 +50,8 @@ const PlaidBarComponent = Component.extend(GroupElement, {
 
   fillOpacity: 1.0,
 
+  barConstructor: null,
+
   didReceiveAttrs() {
     this._super(...arguments);
 
@@ -71,37 +73,54 @@ const PlaidBarComponent = Component.extend(GroupElement, {
 
     let x, width, y, height;
 
+    let barConstructor = this.get('barConstructor');
+
     if (orientation === 'vertical') {
       let maxHeight = max(yScale.range());
       x = (d) => xScale(d[0]);
-      width = xScale.bandwidth();
+      width = () => xScale.bandwidth();
       y = (d) => yScale(d[1]);
       height = (d) => maxHeight - yScale(d[1]);
     } else {
-      x = min(xScale.range());
+      x = () => min(xScale.range());
       width = (d) => xScale(d[0]);
       y = (d) => yScale(d[1]);
-      height = yScale.bandwidth();
+      height = () => yScale.bandwidth();
     }
 
-    // JOIN new data with old elements
+    let pathData;
+    if (barConstructor) {
+      pathData = barConstructor(x, y, width, height);
+    } else {
+      pathData = function(d) {
+        let p = path();
+        p.rect(x(d), y(d), width, height);
+        return p;
+      };
+    }
+
+    // UPDATE
     let bars = this.selection.selectAll('.bar').data(values);
 
-    // EXIT old elements not present in new data
+    // EXIT
     bars.exit().remove();
 
-    // ENTER new elements present in new data
-    let enterBars = bars.enter().append('rect').attr('class', 'bar');
-
-    // MERGE the existing and with the entered and UPDATE
-    bars.merge(enterBars)
+    // ENTER
+    // let enterJoin = bars.enter().append('rect');
+    let enterJoin = bars.enter()
+      .append('path')
       .attr('class', 'bar')
-      .attr('x', x)
-      .attr('width', width)
-      .attr('y', y)
-      .attr('height', height)
-      .attr('fill', fill)
-      .attr('fillOpacity', fillOpacity);
+      .attr('d', pathData);
+
+    // ENTER + UPDATE
+    enterJoin.merge(bars)
+      .attr('d', pathData)
+    .attr('x', x)
+    .attr('width', width)
+    .attr('y', y)
+    .attr('height', height)
+    .attr('fill', fill)
+    .attr('fillOpacity', fillOpacity);
   }
 });
 
