@@ -24,9 +24,10 @@ test('it renders a vertical bar chart', function(assert) {
   this.render(hbs`
     {{#with (area 110 1000) as |plotArea|}}
       {{#plaid-plot
-          xScale=(band-scale (map-by 'mpg' fuelEconomy) (array 0 plotArea.width))
-          yScale=(linear-scale (extent (map-by 'vehicles' fuelEconomy) toZero=true) (array plotArea.height 0))
-          plotArea=plotArea as |plot|}}
+          (band-scale (map-by 'mpg' fuelEconomy) (array 0 plotArea.width))
+          (linear-scale (extent (map-by 'vehicles' fuelEconomy) toZero=true) (array plotArea.height 0))
+          plotArea
+        as |plot|}}
 
         {{#with (pair-by 'mpg' 'vehicles' fuelEconomy) as |values|}}
 
