@@ -2,7 +2,7 @@ import { arc, pie } from  'd3-shape';
 import Ember from 'ember';
 import layout from './template';
 import GroupElement from '../../mixins/group-element';
-import { interpolateCool, interpolateInferno,scaleSequential } from 'd3-scale';
+import { interpolateInferno, scaleSequential } from 'd3-scale';
 import { color } from 'd3-color';
 const {
   Component,
