@@ -172,12 +172,6 @@ test('it renders a horizontal bar chart', function(assert) {
         p.rect(0, i * 10, barVehicles, 10);
 
         assert.equal(bar.getAttribute('d'), p.toString(), `bar ${i} d`);
-
-        // assert.equal(bar.getAttribute('y'), i * 10, `bar ${i} y`);
-        // assert.equal(bar.getAttribute('height'), 10, `bar ${i} height`);
-
-        // assert.equal(bar.getAttribute('x'), 0, `bar ${i} x`);
-        // assert.equal(bar.getAttribute('width'), barVehicles, `bar ${i} width`);
       }
     });
 });
