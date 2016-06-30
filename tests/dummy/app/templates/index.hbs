@@ -4,3 +4,11 @@
 
 {{partial "charts/line-chart"}}
 
+<h2>Donut</h2>
+{{#with (area 664 220) as |plotArea|}}
+  {{#plaid-plot plotArea=plotArea as |plot|}}
+
+    {{plot.donut (pair-by "timestamp" "value" donutData)}}
+
+  {{/plaid-plot}}
+{{/with}}
