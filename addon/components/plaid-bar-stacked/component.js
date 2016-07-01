@@ -45,11 +45,6 @@ const PlaidBarStackedComponent = Component.extend(GroupElement, {
   */
   values: [],
 
-  /**
-    @private
-  */
-  drawnValues: [],
-
   stackBy: null,
   colorScale: null,
 
@@ -90,35 +85,37 @@ const PlaidBarStackedComponent = Component.extend(GroupElement, {
       height = yScale.bandwidth;
     }
 
-    let appendElements = values !== this.drawnValues || values.length !== this.drawnValues.length;
+    // JOIN new data with old barGroups
+    let barGroups = this.selection.selectAll('.bar-group').data(values);
 
-    let barGroups = this.selection.selectAll('.bar-group');
+    // EXIT old barGroups not present in new data
+    barGroups.exit().remove();
 
-    if (appendElements) {
-      barGroups = barGroups.data(values).enter().append('g');
-    }
+    // ENTER new barGroups present in new data
+    let enterBarGroups = barGroups.enter().append('g');
 
-    let bars = barGroups
+    let bars = barGroups.merge(enterBarGroups)
       .attr('class', (d) => `bar-group ${d.key}`)
       .attr('fill', (d) => {
         if (colorScale) {
           return colorScale(d.key);
         }
       })
-      .selectAll('.bar');
+      .selectAll('.bar')
+      .data((d) => d);
 
-    if (appendElements) {
-      bars = bars.data((d) => d).enter().append('rect');
-    }
+    // EXIT old bars not present in new data
+    bars.exit().remove();
 
-    bars
-      .attr('class', 'bar')
+    // ENTER new bars present in new data
+    let enterBars = bars.enter().append('rect').attr('class', 'bar');
+
+    // MERGE and update new and existing bars
+    bars.merge(enterBars)
       .attr('x', x)
       .attr('width', width)
       .attr('y', y)
       .attr('height', height);
-
-    this.drawnValues = values;
   }
 });
 
