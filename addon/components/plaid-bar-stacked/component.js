@@ -57,8 +57,8 @@ const PlaidBarStackedComponent = Component.extend(GroupElement, {
       orientation === 'vertical' || orientation === 'horizontal');
 
     let scales = getProperties(this, 'xScale', 'yScale');
-    assert('xScale is required', scales.xScale);
-    assert('yScale is required', scales.yScale);
+    assert('xScale is required', !!scales.xScale);
+    assert('yScale is required', !!scales.yScale);
 
     let checkScale = orientation === 'vertical' ? 'xScale' : 'yScale';
 
