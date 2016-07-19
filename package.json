@@ -58,8 +58,8 @@
     "ember-cli-babel": "^5.1.6",
     "ember-cli-htmlbars": "^1.0.5",
     "ember-math-helpers": "1.0.0",
-    "ember-d3-helpers": "LocusEnergy/ember-d3-helpers#updates-d3v4_rc1-and-ember-cli",
-    "ember-composable-helpers": "0.26.0",
+    "ember-d3-helpers": "^0.5.2",
+    "ember-composable-helpers": "^0.26.2",
     "ember-cli-d3-shape": "^0.9.3"
   },
   "ember-addon": {
