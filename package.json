@@ -20,7 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
-    "ember-cli": "2.5.0",
+    "ember-cli": "^2.6",
     "ember-cli-app-version": "^1.0.0",
     "ember-cli-bourbon": "1.2.2",
     "ember-cli-dependency-checker": "^1.2.0",
@@ -32,8 +32,6 @@
     "ember-cli-release": "1.0.0-beta.1",
     "ember-cli-sri": "^2.1.0",
     "ember-cli-uglify": "^1.2.0",
-    "ember-composable-helpers": "0.26.0",
-    "ember-d3-scale": "0.1.5",
     "ember-data": "2.5.3",
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-disable-proxy-controllers": "^1.0.1",
@@ -44,6 +42,7 @@
     "ember-sublime": "0.0.4",
     "ember-try": "^0.2.2",
     "emberfire": "1.6.6",
+    "ember-cli-sass": "5.3.1",
     "loader.js": "^4.0.4"
   },
   "keywords": [
@@ -58,9 +57,10 @@
   "dependencies": {
     "ember-cli-babel": "^5.1.6",
     "ember-cli-htmlbars": "^1.0.5",
-    "ember-cli-sass": "5.3.1",
     "ember-math-helpers": "1.0.0",
-    "ember-cli-d3-shape": "^0.8.6"
+    "ember-d3-helpers": "^0.5.2",
+    "ember-composable-helpers": "^0.26.2",
+    "ember-cli-d3-shape": "^0.9.3"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

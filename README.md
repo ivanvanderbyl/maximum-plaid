@@ -25,7 +25,7 @@ We provide a few helpers to make this easy (more soon).
 
 ### Series Transforms
 
-<a name="pairBy" href="#pairBy">#</a> `pair-by`(<i>attr</i>, [<i>attr2</i>,] <i>series</i>)
+<a name="pairBy" href="#pairBy">#</a> pair-by(<i>attr</i>, [<i>attr2</i>,] <i>series</i>)
 
 > Basically a multi-property `map-by`.
 
