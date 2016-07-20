@@ -1,15 +1,17 @@
-{{yield (hash
-  line=(component "plaid-line" xScale=xScale yScale=yScale x=plotArea.left y=plotArea.top)
-  area=(component "plaid-area" xScale=xScale yScale=yScale x=plotArea.left y=plotArea.top)
-  scatter=(component "plaid-scatter" xScale=xScale yScale=yScale x=plotArea.left y=plotArea.top)
-  symbol=(component "plaid-symbol" x=plotArea.left y=plotArea.top)
-  bar=(component "plaid-bar" xScale=xScale yScale=yScale x=plotArea.left y=plotArea.top)
-  donut=(component "plaid-donut" x=plotArea.left y=plotArea.top width=plotArea.width height=plotArea.height)
-  text=(component "plaid-text")
-  donut=(component "plaid-donut" width=plotArea.width height=plotArea.height)
+<g transform="translate({{plotArea.margin.left}},{{plotArea.margin.top}})">
+  {{yield (hash
+    line=(component "plaid-line" xScale=xScale yScale=yScale)
+    area=(component "plaid-area" xScale=xScale yScale=yScale)
+    scatter=(component "plaid-scatter" xScale=xScale yScale=yScale)
+    symbol=(component "plaid-symbol")
+    bar=(component "plaid-bar" xScale=xScale yScale=yScale)
+    donut=(component "plaid-donut")
+    text=(component "plaid-text")
+    donut=(component "plaid-donut" width=plotArea.width height=plotArea.height)
 
-  top-axis=(component "plaid-axis" orientation="top" scale=xScale y=plotArea.top x=plotArea.left)
-  right-axis=(component "plaid-axis" orientation="right" scale=yScale y=plotArea.top x=plotArea.right)
-  bottom-axis=(component "plaid-axis" orientation="bottom" scale=xScale y=(add plotArea.height plotArea.top) x=plotArea.left)
-  left-axis=(component "plaid-axis" orientation="left" scale=yScale y=plotArea.top x=plotArea.left)
-)}}
+    top-axis=(component "plaid-axis" orientation="top" scale=xScale)
+    right-axis=(component "plaid-axis" orientation="right" scale=yScale x=plotArea.width)
+    bottom-axis=(component "plaid-axis" orientation="bottom" scale=xScale y=plotArea.height)
+    left-axis=(component "plaid-axis" orientation="left" scale=yScale))
+  }}
+</g>

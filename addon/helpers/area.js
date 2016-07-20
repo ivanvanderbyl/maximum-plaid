@@ -7,17 +7,18 @@ export function area([width, height], hash) {
   return {
     top: margin.top,
     left: margin.left,
-    bottom: height - margin.top,
+    bottom: height - margin.bottom,
     right: width - margin.right,
     height: height - margin.top - margin.bottom,
     width: width - margin.left - margin.right,
-    outerWidth: width,
     outerHeight: height,
+    outerWidth: width,
+
     margin: {
       top: margin.top,
-      left: margin.left,
+      right: margin.right,
       bottom: margin.bottom,
-      right: margin.right
+      left: margin.left
     }
   };
 }
