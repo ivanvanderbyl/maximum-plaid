@@ -2,6 +2,9 @@ import Ember from 'ember';
 import GroupElement from '../../mixins/group-element';
 import { max, min } from 'd3-array';
 import { path } from 'd3-path';
+import { transition } from 'd3-transition';
+import { easeCubicInOut } from 'd3-ease';
+
 const {
   assert,
   Component,
@@ -99,6 +102,8 @@ const PlaidBarComponent = Component.extend(GroupElement, {
       };
     }
 
+    let t = transition().duration(300).ease(easeCubicInOut);
+
     // UPDATE
     let bars = this.selection.selectAll('.bar').data(values);
 
@@ -114,6 +119,7 @@ const PlaidBarComponent = Component.extend(GroupElement, {
 
     // ENTER + UPDATE
     enterJoin.merge(bars)
+      .transition(t)
       .attr('d', pathData)
     .attr('fill', fill)
     .attr('fillOpacity', fillOpacity);

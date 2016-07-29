@@ -1,0 +1,7 @@
+{{#with (area 664 220 margin="0") as |plotArea|}}
+  {{#plaid-plot
+    plotArea as |plot|}}
+
+    {{plot.area (voronoi colorChartData) pathFn=true}}
+  {{/plaid-plot}}
+{{/with}}

@@ -39,6 +39,8 @@ const AreaComponent = Ember.Component.extend(GroupElement, {
 
   fill: 'black',
 
+  pathFn: null,
+
   fillOpacity: 1.0,
 
   didRender() {
@@ -55,19 +57,30 @@ const AreaComponent = Ember.Component.extend(GroupElement, {
 
   pathData: computed('values.[]', 'xScale', 'yScale', 'curve', {
     get() {
-      let { values, xScale, yScale, curve } =
-        this.getProperties('values', 'xScale', 'yScale', 'curve');
+      let { values, xScale, yScale, curve, pathFn } =
+        this.getProperties('values', 'xScale', 'yScale', 'curve', 'pathFn');
 
-      let areaFn = area()
-        .x((d) => xScale(d[0]))
-        .y1((d) => yScale(d[1]))
-        .y0(yScale(0));
+      if (pathFn) {
+        this.selection.selectAll('path')
+          .data(values)
+        .enter().append('path')
+          .attr('d', (d) => 'M' + d.join('L') + 'Z');
+      } else {
+        let areaFn = area();
 
-      if (curve) {
-        areaFn.curve(curve);
+        if (xScale && yScale) {
+          areaFn.x((d) => xScale(d[0]))
+            .y1((d) => yScale(d[1]))
+            .y0(yScale(0));
+        }
+
+        if (curve) {
+          areaFn.curve(curve);
+        }
+
+        return areaFn(values);
       }
 
-      return areaFn(values);
     }
   })
 });
