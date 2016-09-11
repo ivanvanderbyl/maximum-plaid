@@ -43,7 +43,7 @@ export default Component.extend(GroupElement, {
 
   /**
    * The format used for the ticks for this axis.
-   * [See D3 docs for more details](https://github.com/d3/d3/wiki/SVG-Axes#tickFormat)
+   * [See D3 docs for more details](https://github.com/d3/d3-axis#axis_tickFormat)
    *
    * @public
    * @type {Function}
@@ -52,7 +52,7 @@ export default Component.extend(GroupElement, {
 
   /**
    * The inner tick size for the ticks for this axis.
-   * [See D3 docs for more details](https://github.com/d3/d3/wiki/SVG-Axes#innerTickSize)
+   * [See D3 docs for more details](https://github.com/d3/d3-axis#axis_tickSizeInner)
    *
    * @public
    * @type {Number}
@@ -61,12 +61,21 @@ export default Component.extend(GroupElement, {
 
   /**
    * The outer tick size for the ticks for this axis.
-   * [See D3 docs for more details](https://github.com/d3/d3/wiki/SVG-Axes#outerTickSize)
+   * [See D3 docs for more details](https://github.com/d3/d3-axis#axis_tickSizeOuter)
    *
    * @public
    * @type {Number}
    */
   tickSizeOuter: 8,
+
+  /**
+   * Explicit tick values for this axis.
+   * [See D3 docs for more details](https://github.com/d3/d3-axis#axis_tickValues)
+   *
+   * @public
+   * @type {Array}
+   */
+  tickValues: null,
 
   xOffset: 0,
 
@@ -77,13 +86,14 @@ export default Component.extend(GroupElement, {
   },
 
   drawAxis() {
-    let { y, x, xOffset, yOffset, scale, orientation, tickFormat, ticks, tickSizeInner, tickSizeOuter } =
-      this.getProperties('y', 'x', 'xOffset', 'yOffset', 'scale', 'orientation', 'tickFormat', 'ticks', 'tickSizeInner', 'tickSizeOuter');
+    let { y, x, xOffset, yOffset, scale, orientation, tickFormat, ticks, tickSizeInner, tickSizeOuter, tickValues } =
+      this.getProperties('y', 'x', 'xOffset', 'yOffset', 'scale', 'orientation', 'tickFormat', 'ticks', 'tickSizeInner', 'tickSizeOuter', 'tickValues');
 
     let axis = this.createAxis(orientation, scale);
 
     axis.tickFormat(tickFormat);
     axis.tickSize(tickSizeInner, tickSizeOuter);
+    axis.tickValues(tickValues);
     axis.scale(scale);
 
     if (ticks) {
