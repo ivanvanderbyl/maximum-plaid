@@ -127,7 +127,7 @@ const PlaidBarComponent = Component.extend(GroupElement, {
 });
 
 PlaidBarComponent.reopenClass({
-  positionalParams: [ 'values' ]
+  positionalParams: ['values']
 });
 
 export default PlaidBarComponent;

@@ -88,12 +88,12 @@ const DonutComponent = Component.extend(GroupElement, {
       .attr('data-title', (d) => d.data[0])
       .select('path')
         .attr('d', arc)
-        .attr('fill', (d,i) => {
+        .attr('fill', (d, i) => {
           let c = color(arcColorScale(i));
           c.opacity = 0.54;
           return c.toString();
         })
-        .attr('stroke', (d,i) => arcColorScale(i))
+        .attr('stroke', (d, i) => arcColorScale(i))
         .on('click', (d) => run(this, this.sendAction, 'on-click', d.data[0]))
         .on('mouseenter', (d) => run(this, this.sendAction, 'on-enter', d.data[0]))
         .on('mouseleave', (d) => run(this, this.sendAction, 'on-leave', d.data[0]));
@@ -102,7 +102,7 @@ const DonutComponent = Component.extend(GroupElement, {
 });
 
 DonutComponent.reopenClass({
-  positionalParams: [ 'values' ]
+  positionalParams: ['values']
 });
 
 export default DonutComponent;

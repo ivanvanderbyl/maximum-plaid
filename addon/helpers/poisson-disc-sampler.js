@@ -4,7 +4,7 @@ import Ember from 'ember';
   Based on https://www.jasondavies.com/poisson-disc/
  */
 
-export function poissonDiscSampler([width, height, radius] = []/*, hash*/) {
+export function poissonDiscSampler([width, height, radius] = []/* , hash*/) {
   let k = 30; // maximum number of samples before rejection
   let radius2 = radius * radius;
   let R = 3 * radius2;

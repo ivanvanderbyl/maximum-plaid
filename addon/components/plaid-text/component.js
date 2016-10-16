@@ -10,8 +10,8 @@ const {
 const PlaidTextComponent = Component.extend({
   tagName: 'text',
   layout,
-  classNames: [ 'plaid-text' ],
-  attributeBindings: [ 'transform', 'fill', 'dx', 'dy', 'rotate', 'textLength', 'lengthAdjust', 'textAnchor:text-anchor' ],
+  classNames: ['plaid-text'],
+  attributeBindings: ['transform', 'fill', 'dx', 'dy', 'rotate', 'textLength', 'lengthAdjust', 'textAnchor:text-anchor'],
 
   textAnchor: 'middle',
 
@@ -37,7 +37,7 @@ const PlaidTextComponent = Component.extend({
 });
 
 PlaidTextComponent.reopenClass({
-  positionalParams: [ 'value' ]
+  positionalParams: ['value']
 });
 
 export default PlaidTextComponent;

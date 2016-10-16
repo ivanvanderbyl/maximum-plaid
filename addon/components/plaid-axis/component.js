@@ -16,8 +16,8 @@ const AXIS_MAP = {
 
 export default Component.extend(GroupElement, {
   layout: null,
-  classNames: [ 'axis', 'Plaid-axis' ],
-  classNameBindings: [ 'orientation' ],
+  classNames: ['axis', 'Plaid-axis'],
+  classNameBindings: ['orientation'],
 
   y: 0,
 

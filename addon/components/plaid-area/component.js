@@ -64,7 +64,7 @@ const AreaComponent = Ember.Component.extend(GroupElement, {
         this.selection.selectAll('path')
           .data(values)
         .enter().append('path')
-          .attr('d', (d) => 'M' + d.join('L') + 'Z');
+          .attr('d', (d) => `M${  d.join('L')  }Z`);
       } else {
         let areaFn = area();
 
