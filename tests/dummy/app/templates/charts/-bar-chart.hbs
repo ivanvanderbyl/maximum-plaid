@@ -1,4 +1,5 @@
-{{#with (area 664 220 margin="16 75 72 16") as |plotArea|}}
+{{!-- {{#with (area 664 220 margin="16 75 72 16") as |plotArea|}} --}}
+{{#plaid/resizable-area margin="16 75 72 16" minHeight=280 as |plotArea|}}
   {{#plaid-plot
       (band-scale (map-by 'mpg' fuelEconomy) (array 0 plotArea.width) padding-inner=0.05)
       (linear-scale (extent (map-by 'vehicles' fuelEconomy) toZero=true) (array plotArea.height 0))
@@ -7,7 +8,13 @@
 
     {{#with (pair-by 'mpg' 'vehicles' fuelEconomy) as |values|}}
       {{!-- Plot bars --}}
-      {{plot.bar values orientation='vertical' fill="#673AB7" barConstructor=(rounded-rect radius="5 5 0 0")}}
+      {{plot.bar values
+        orientation='vertical'
+        fill="#673AB7"
+        barConstructor=(rounded-rect radius="5 5 0 0")
+        hover=(action "showBarPreview")
+        click=(action "toggleBarSelect")
+      }}
 
       {{!-- Bottom Axis --}}
       {{#plot.bottom-axis values ticks=10 tickFormat=(format-fn "0.1s")}}
@@ -20,4 +27,5 @@
       {{/plot.right-axis}}
     {{/with}}
   {{/plaid-plot}}
-{{/with}}
+{{!-- {{/with}} --}}
+{{/plaid/resizable-area}}
