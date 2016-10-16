@@ -12,7 +12,6 @@ const {
 } = Ember;
 
 export default Mixin.create(GlobalResize, {
-
   width: 1,
   height: 1,
 
