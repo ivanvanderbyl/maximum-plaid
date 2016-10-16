@@ -1,7 +1,7 @@
 import Controller from 'ember-controller';
 import Ember from 'ember';
 import computed from 'ember-computed';
-import {poissonDiscSampler} from 'maximum-plaid/helpers/poisson-disc-sampler';
+import { poissonDiscSampler } from 'maximum-plaid/helpers/poisson-disc-sampler';
 
 export default Ember.Controller.extend({
 
@@ -34,6 +34,17 @@ export default Controller.extend({
 
       return samples;
     }
-  })
+  }),
+
+  actions: {
+    showBarPreview(...args) {
+      console.log(args);
+    },
+
+    toggleBarSelect(...args) {
+      console.log(args);
+      // this.set('selectedBar', id);
+    }
+  }
 
 });

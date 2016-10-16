@@ -10,7 +10,8 @@ const {
   Component,
   getProperties,
   run: { scheduleOnce },
-  typeOf
+  typeOf,
+  run
 } = Ember;
 
 const PlaidBarComponent = Component.extend(GroupElement, {
@@ -71,10 +72,10 @@ const PlaidBarComponent = Component.extend(GroupElement, {
   },
 
   drawBars() {
-    let { values, xScale, yScale, fill, fillOpacity, orientation } =
-      getProperties(this, 'values', 'xScale', 'yScale', 'fill', 'fillOpacity', 'orientation');
+    let { values, xScale, yScale, fill, fillOpacity, orientation }
+      = getProperties(this, 'values', 'xScale', 'yScale', 'fill', 'fillOpacity', 'orientation');
 
-    let x, width, y, height;
+    let x, width, y, height, pathData;
 
     let barConstructor = this.get('barConstructor');
 
@@ -91,7 +92,6 @@ const PlaidBarComponent = Component.extend(GroupElement, {
       height = () => yScale.bandwidth();
     }
 
-    let pathData;
     if (barConstructor) {
       pathData = barConstructor(x, y, width, height);
     } else {
@@ -102,6 +102,7 @@ const PlaidBarComponent = Component.extend(GroupElement, {
       };
     }
 
+    // TODO: Configure this
     let t = transition().duration(300).ease(easeCubicInOut);
 
     // UPDATE
@@ -119,10 +120,27 @@ const PlaidBarComponent = Component.extend(GroupElement, {
 
     // ENTER + UPDATE
     enterJoin.merge(bars)
+      // .on('click', (d) => run(this, this.handleBarClick, d))
+      .on('mouseover', (d, index) => {
+        console.log(d, index);
+      })
+      .on('mouseout', (d, index) => {
+        console.log(d, index);
+      })
+
+          // run(this, this.handleBarClick, d, index))
       .transition(t)
       .attr('d', pathData)
     .attr('fill', fill)
     .attr('fillOpacity', fillOpacity);
+  },
+
+  handleBarClick(d) {
+    this.sendAction('click', d);
+  },
+
+  handleBarHover(d) {
+    this.sendAction('hover', d);
   }
 });
 
