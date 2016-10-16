@@ -31,10 +31,10 @@ export default Route.extend({
   setupController(controller, { responseTimeMean }) {
     controller.setProperties({ responseTimeMean });
 
-    this.get('refreshData').perform(controller);
+    // this.get('refreshData').perform(controller);
   },
 
-  refreshData: task(function *(controller) {
+  refreshData: task(function* (controller) {
     while (true) {
       yield timeout(1e3);
 

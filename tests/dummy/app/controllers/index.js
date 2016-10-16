@@ -37,6 +37,17 @@ export default Controller.extend({
   }),
 
   actions: {
+    updateSelection(selection) {
+      let responseTimeMean = this.get('responseTimeMean');
+      let [x0, x1]  = selection.map(Number);
+      let subSelection = responseTimeMean.filter((d) => d.timestamp > x0 && d.timestamp <= x1);
+
+      this.set('fuelEconomy', subSelection.map((d) => ({
+        mpg: d.timestamp,
+        vehicles: d.value
+      })));
+    },
+
     showBarPreview(...args) {
       console.log(args);
     },

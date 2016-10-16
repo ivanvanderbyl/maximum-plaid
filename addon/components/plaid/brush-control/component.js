@@ -15,6 +15,10 @@ export default Component.extend(GroupElement, {
 
   height: 0,
 
+  xScale: null,
+
+  yScale: null,
+
   didReceiveAttrs() {
     this.scheduleDraw();
   },
@@ -24,7 +28,8 @@ export default Component.extend(GroupElement, {
   },
 
   draw() {
-    let { x, y, width, height } = this.getProperties('width', 'height', 'x', 'y');
+    let { x, y, width, height, xScale }
+      = this.getProperties('width', 'height', 'x', 'y', 'xScale');
 
     let brush = brushX()
       .extent([[0, 0], [width, height]])
@@ -40,14 +45,14 @@ export default Component.extend(GroupElement, {
           return; // Ignore empty selections.
         }
 
-        run(this, this.didBrush, selection);
+        run(this, this.didBrush, selection.map(xScale.invert));
       })
       .on('brush', () => {
         let {  selection } = event;
         if (!selection) {
           return; // Ignore empty selections.
         }
-        run(this, this.isBrushing, selection);
+        run(this, this.isBrushing, selection.map(xScale.invert));
       });
 
     this.selection
