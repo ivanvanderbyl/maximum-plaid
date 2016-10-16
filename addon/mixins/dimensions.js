@@ -16,31 +16,53 @@ export default Mixin.create(GlobalResize, {
   width: 1,
   height: 1,
 
-  prepare: on('didInsertElement', function() {
+  _prepareToCalculateFirstDimensions: on('didInsertElement', function() {
     next(this, this.measureDimensions);
   }),
 
+  /**
+   * Fires after each resize calculation, ensuring we have valid dimensions.
+   *
+   * @public
+   * @type {Function}
+   */
   didMeasureDimensions: K,
 
+  /**
+   * Configures the throttling on calcuting the resize.
+   *
+   * Defaults to once every frame 40ms.
+   *
+   * @type {Number}
+   * @public
+   */
+  resizeThrottle: 1e3 / 25,
+
   didResize() {
-    // window.requestAnimationFrame(this.measureDimensions.bind(this));
-    throttle(this, this.measureDimensions, 100);
+    let resizeThrottle = get(this, 'resizeThrottle');
+    throttle(this, this.measureDimensions, resizeThrottle);
   },
 
+  /**
+   * Calculates dimensions of this container. This forces the browser to calculate
+   * styles, which is slow, so don't do this too often or you'll create jank.
+   *
+   * @public
+   */
   measureDimensions() {
     if (!this.element) {
       return;
     }
 
-    let rect = this.element.getBoundingClientRect();
-    next(this, function() {
-      this.setProperties({
-        width: rect.width,
-        height: rect.height
-      });
+    let { minWidth, minHeight } = this.getProperties('minWidth', 'minHeight');
 
-      this.trigger('didMeasureDimensions');
+    let rect = this.element.getBoundingClientRect();
+    this.setProperties({
+      width: Math.max(rect.width, minWidth),
+      height: Math.max(rect.height, minHeight)
     });
+
+    this.trigger('didMeasureDimensions');
   }
 
 });
