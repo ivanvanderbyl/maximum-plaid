@@ -1,15 +1,17 @@
 import Ember from 'ember';
 
-export default Ember.Mixin.create({
-  _setupResizeListener: Ember.on('didInsertElement', function() {
-    Ember.$(window).on(`resize.${this.elementId}`, (event) => {
-      this.didResize(event);
+const { Mixin, on, $, K, run } = Ember;
+
+export default Mixin.create({
+  _setupResizeListener: on('didInsertElement', function() {
+    $(window).on(`resize.${this.elementId}`, (event) => {
+      run.next(this, this.didResize, event);
     });
   }),
 
-  _teardownResizeListener: Ember.on('willDestroyElement', function() {
-    Ember.$(window).off(`resize.${this.elementId}`);
+  _teardownResizeListener: on('willDestroyElement', function() {
+    $(window).off(`resize.${this.elementId}`);
   }),
 
-  didResize: Ember.K
+  didResize: K
 });

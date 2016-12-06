@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import Component from 'ember-component';
 
 import {
   symbol,
@@ -27,7 +28,7 @@ const {
  *   {{plaid-symbol "TYPE" x y}}
  */
 
-const SymbolComponent = Ember.Component.extend({
+const SymbolComponent = Component.extend({
   tagName: 'path',
   attributeBindings: [
     'symbolData:d',

@@ -1,10 +1,9 @@
 import Ember from 'ember';
-import {format as d3Format} from 'd3-format';
+import { format as d3Format } from 'd3-format';
+const { Helper } = Ember;
 
 export function format([value], hash) {
-  if (!hash) {
-    hash = {};
-  }
+  hash = Object.assign({}, hash);
 
   let result;
   if (!hash.format) {
@@ -28,4 +27,4 @@ export function format([value], hash) {
   return result;
 }
 
-export default Ember.Helper.helper(format);
+export default Helper.helper(format);

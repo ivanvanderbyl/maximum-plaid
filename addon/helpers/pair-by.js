@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { assert } = Ember;
+const { Helper, isArray, assert } = Ember;
 
 /**
  * @pairBy(params);
@@ -16,10 +16,11 @@ const { assert } = Ember;
  * @public
  * @return {Array[Array[2]]}
  */
-export function pairBy(params) {
+export function pairBy(args = []) {
+  let params = args.slice();
   assert('pair-by requires at least 2 arguments: key, data', params.length >= 2);
   let data = params.pop();
-  assert('last argument must be an array of objects', Ember.isArray(data));
+  assert('last argument must be an array of objects', isArray(data));
 
   let [...keys] = params;
 
@@ -31,4 +32,4 @@ export function pairBy(params) {
   });
 }
 
-export default Ember.Helper.helper(pairBy);
+export default Helper.helper(pairBy);

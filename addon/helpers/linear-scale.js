@@ -1,7 +1,12 @@
 import Ember from 'ember';
 import { scaleLinear } from 'd3-scale';
+const { Helper } = Ember;
 
-export function linearScale([domain, range], hash = {}) {
+export function linearScale(params, hash = {}) {
+  params = params.slice();
+  let [domain, range] = params;
+  hash = Object.assign({}, hash);
+
   let scale = scaleLinear().domain(domain);
   if (hash && hash.round) {
     scale.rangeRound(range);
@@ -12,4 +17,4 @@ export function linearScale([domain, range], hash = {}) {
   return scale;
 }
 
-export default Ember.Helper.helper(linearScale);
+export default Helper.helper(linearScale);

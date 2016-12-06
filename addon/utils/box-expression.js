@@ -1,17 +1,18 @@
 import Ember from 'ember';
+const { assert } = Ember;
 
 export default function box(expr) {
   if (typeof expr !== 'object') {
     expr = String(expr).split(/\s+/).map(Number);
   } else {
-    return [ 'left', 'right', 'top', 'bottom' ].reduce((accum, dir) => {
+    return ['left', 'right', 'top', 'bottom'].reduce((accum, dir) => {
       accum[dir] = Number(expr[dir]) || 0;
 
       return accum;
     }, {});
   }
 
-  Ember.assert('Box expr must be have 1-4 numbers', !expr.filter(isNaN).length);
+  assert('Box expr must be have 1-4 numbers', !expr.filter(isNaN).length);
 
   switch (expr.length) {
     // 1 value = all four sides

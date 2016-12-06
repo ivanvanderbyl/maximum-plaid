@@ -1,10 +1,10 @@
 import Ember from 'ember';
 import { extent as arrayExtent, max } from 'd3-array';
-const { get } = Ember;
+const { Helper, get, isPresent } = Ember;
 
 export function extent([array, accessor], options) {
 
-  if (!!accessor) {
+  if (isPresent(accessor)) {
     array = array.map((d) => get(d, accessor));
   }
 
@@ -15,4 +15,4 @@ export function extent([array, accessor], options) {
   }
 }
 
-export default Ember.Helper.helper(extent);
+export default Helper.helper(extent);

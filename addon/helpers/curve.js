@@ -1,5 +1,5 @@
 import Ember from 'ember';
-const { isPresent, assert, String: { camelize } } = Ember;
+const { Helper, isPresent, assert, String: { camelize } } = Ember;
 
 import {
   curveBasisClosed,
@@ -58,4 +58,4 @@ export function curve([curveName], hash) {
   return curveFn;
 }
 
-export default Ember.Helper.helper(curve);
+export default Helper.helper(curve);

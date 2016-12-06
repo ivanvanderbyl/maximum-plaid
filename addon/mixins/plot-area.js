@@ -1,9 +1,9 @@
 import Ember from 'ember';
 import box from '../utils/box-expression';
 
-const { computed } = Ember;
+const { computed, Mixin } = Ember;
 
-export default Ember.Mixin.create({
+export default Mixin.create({
 
   /**
    * Specifies them margin for the main graph, such that you can position
