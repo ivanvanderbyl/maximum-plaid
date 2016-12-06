@@ -10,8 +10,7 @@ const {
   Component,
   getProperties,
   run: { scheduleOnce },
-  typeOf,
-  run
+  typeOf
 } = Ember;
 
 const PlaidBarComponent = Component.extend(GroupElement, {
@@ -76,6 +75,8 @@ const PlaidBarComponent = Component.extend(GroupElement, {
       = getProperties(this, 'values', 'xScale', 'yScale', 'fill', 'fillOpacity', 'orientation');
 
     let x, width, y, height, pathData;
+
+    console.log(values);
 
     let barConstructor = this.get('barConstructor');
 

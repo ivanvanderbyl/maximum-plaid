@@ -1,4 +1,4 @@
-{{#plaid/resizable-area margin="16 75 72 8" minHeight=280 as |plotArea|}}
+{{#plaid/resizable-area margin="16 75 72 16" minHeight=280 as |plotArea|}}
   {{#plaid-plot
     (time-scale (extent (map-by "timestamp" responseTimeMean)) (array 0 plotArea.width))
     (linear-scale (extent (map-by "value" responseTimeMean) toZero=true) (array plotArea.height 0))
@@ -20,6 +20,8 @@
       {{/plot.scatter}} --}}
     {{/with}}
 
-    {{plot.brush brushed=(action "updateSelection")}}
+    {{plot.brush
+      brushed=(action "updateSelection")
+    }}
   {{/plaid-plot}}
 {{/plaid/resizable-area}}
