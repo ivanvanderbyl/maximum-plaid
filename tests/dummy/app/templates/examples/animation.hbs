@@ -1,0 +1,16 @@
+<button onclick={{action "toggleDataSets"}}>Toggle data</button>
+
+<svg width="500" height="100">
+  {{#plaid-animation
+    data=data
+    on-end=(action "updateRenderStats")
+  as |data info|}}
+    <rect height="32" width={{data.value}} fill="blue"></rect>
+  {{/plaid-animation}}
+</svg>
+
+<pre>
+
+  Actual render duration: {{performanceDuration}}ms
+
+</pre>

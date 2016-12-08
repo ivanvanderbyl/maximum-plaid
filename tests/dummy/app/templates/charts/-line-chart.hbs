@@ -5,8 +5,11 @@
     plotArea as |plot|}}
 
     {{#with (pair-by "timestamp" "value" responseTimeMean) as |values|}}
+
       {{plot.line values stroke="#673AB7" strokeWidth="2"  curve=(curve "basis")}}
+
       {{plot.area values fill="#D1C4E9" curve=(curve "basis")}}
+
       {{#plot.bottom-axis values ticks=10}}
         {{plaid-text 'Timestamps' class='axis-title' x=(div plotArea.width 2) y=40}}
       {{/plot.bottom-axis}}

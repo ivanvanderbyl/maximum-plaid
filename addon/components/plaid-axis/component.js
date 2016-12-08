@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import GroupElement from '../../mixins/group-element';
 import { axisTop, axisRight, axisBottom, axisLeft } from 'd3-axis';
-
+import { transition } from 'd3-transition';
 const {
   Component,
   run: { scheduleOnce }
@@ -82,12 +82,12 @@ export default Component.extend(GroupElement, {
   yOffset: 0,
 
   didReceiveAttrs() {
-    scheduleOnce('afterRender', this, this.drawAxis);
+    scheduleOnce('render', this, this.drawAxis);
   },
 
   drawAxis() {
-    let { y, x, xOffset, yOffset, scale, orientation, tickFormat, ticks, tickSizeInner, tickSizeOuter, tickValues } =
-      this.getProperties('y', 'x', 'xOffset', 'yOffset', 'scale', 'orientation', 'tickFormat', 'ticks', 'tickSizeInner', 'tickSizeOuter', 'tickValues');
+    let { y, x, xOffset, yOffset, scale, orientation, tickFormat, ticks, tickSizeInner, tickSizeOuter, tickValues }
+      = this.getProperties('y', 'x', 'xOffset', 'yOffset', 'scale', 'orientation', 'tickFormat', 'ticks', 'tickSizeInner', 'tickSizeOuter', 'tickValues');
 
     let axis = this.createAxis(orientation, scale);
 
@@ -100,8 +100,11 @@ export default Component.extend(GroupElement, {
       axis.ticks(ticks);
     }
 
-    this.selection.call(axis);
-    this.selection.attr('transform', `translate(${x + xOffset}, ${y + yOffset})`);
+    this.selection.transition(t).call(axis);
+    let t = transition().duration(150);
+    this.selection
+      // .transition(t)
+      .attr('transform', `translate(${x + xOffset}, ${y + yOffset})`);
   },
 
   createAxis(orient, scale) {

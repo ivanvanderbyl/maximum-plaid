@@ -1,15 +1,19 @@
 import Ember from 'ember';
+import Component from 'ember-component';
 import layout from './template';
 import GroupElement from '../../mixins/group-element';
 import { line, curveMonotoneX } from 'd3-shape';
+import { transition } from 'd3-transition';
 
 const {
+  run,
+  get, set,
   computed,
   isPresent,
   String: { dasherize, w }
 } = Ember;
 
-const PlaidLineComponent = Ember.Component.extend(GroupElement, {
+const PlaidLineComponent = Component.extend(GroupElement, {
   layout,
 
   /**
@@ -46,7 +50,11 @@ const PlaidLineComponent = Ember.Component.extend(GroupElement, {
 
   curve: curveMonotoneX,
 
-  didRender() {
+  didReceiveAttrs() {
+    run.scheduleOnce('render', this, this.redraw);
+  },
+
+  redraw() {
     let pathAttrs = this.getProperties(w('stroke strokeWidth strokeOpacity fill fillOpacity'));
     let line = this.selection.select('path.line');
     Object.keys(pathAttrs).forEach((attr) => {
@@ -56,12 +64,17 @@ const PlaidLineComponent = Ember.Component.extend(GroupElement, {
         line.attr(dasherize(attr), value);
       }
     });
+
+    let pathData = get(this, 'pathData');
+    let t = transition().duration(150);
+
+    line.transition(t).attr('d', pathData);
   },
 
   pathData: computed('values.[]', 'xScale', 'yScale', 'curve', {
     get() {
-      let { values, xScale, yScale, curve } =
-        this.getProperties('values', 'xScale', 'yScale', 'curve');
+      let { values, xScale, yScale, curve }
+        = this.getProperties('values', 'xScale', 'yScale', 'curve');
 
       let lineFn = line()
         .curve(curve)

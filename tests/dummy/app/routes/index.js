@@ -29,10 +29,48 @@ export default Route.extend({
   },
 
   setupController(controller, { responseTimeMean }) {
-    controller.setProperties({ responseTimeMean });
-
+    // this.signwaveGenerator();
+    // controller.setProperties({ responseTimeMean: this.signwaveGenerator() });
+    this.get('peekNextData').perform(controller, responseTimeMean);
     // this.get('refreshData').perform(controller);
   },
+
+  signwaveGenerator() {
+    let i = -1;
+    let points = 1000;
+    let data = [];
+    while (++i < points) {
+      let y = Math.sin(2 * Math.PI * i);
+      let x = i;
+      data.push({ timestamp: x, value: y });
+    }
+    console.log(data);
+
+    return data;
+  },
+
+  peekNextData: task(function* (controller, data) {
+    let peekWindow = 50;
+    let i = peekWindow;
+    let currentData = data.slice(0, peekWindow);
+
+    while (true) {
+      yield timeout(1e3);
+      currentData = currentData.concat(data.slice(i, i + 1));
+      if (currentData.length >= peekWindow) {
+        currentData = currentData.slice(currentData.length - peekWindow, currentData.length);
+      }
+
+      if (i === data.length) {
+        i = peekWindow;
+        currentData = data.slice(0, peekWindow);
+      } else {
+        i++;
+      }
+
+      controller.set('responseTimeMean', currentData);
+    }
+  }),
 
   refreshData: task(function* (controller) {
     while (true) {

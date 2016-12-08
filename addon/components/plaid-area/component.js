@@ -1,15 +1,19 @@
 import Ember from 'ember';
+import Component from 'ember-component';
 import layout from './template';
 import { area } from 'd3-shape';
 import GroupElement from '../../mixins/group-element';
 import computed from 'ember-computed';
+import { transition } from 'd3-transition';
 
 const {
+  run,
+  get,
   isPresent,
   String: { dasherize, w }
 } = Ember;
 
-const AreaComponent = Ember.Component.extend(GroupElement, {
+const AreaComponent = Component.extend(GroupElement, {
   layout,
 
   /**
@@ -43,7 +47,11 @@ const AreaComponent = Ember.Component.extend(GroupElement, {
 
   fillOpacity: 1.0,
 
-  didRender() {
+  didReceiveAttrs() {
+    run.scheduleOnce('render', this, this.redraw);
+  },
+
+  redraw() {
     let pathAttrs = this.getProperties(w('fill fillOpacity'));
     let area = this.selection.select('path.area');
     Object.keys(pathAttrs).forEach((attr) => {
@@ -53,18 +61,23 @@ const AreaComponent = Ember.Component.extend(GroupElement, {
         area.attr(dasherize(attr), value);
       }
     });
+
+    let pathData = get(this, 'pathData');
+    let t = transition().duration(150);
+
+    area.transition(t).attr('d', pathData);
   },
 
   pathData: computed('values.[]', 'xScale', 'yScale', 'curve', {
     get() {
-      let { values, xScale, yScale, curve, pathFn } =
-        this.getProperties('values', 'xScale', 'yScale', 'curve', 'pathFn');
+      let { values, xScale, yScale, curve, pathFn }
+        = this.getProperties('values', 'xScale', 'yScale', 'curve', 'pathFn');
 
       if (pathFn) {
         this.selection.selectAll('path')
           .data(values)
         .enter().append('path')
-          .attr('d', (d) => `M${  d.join('L')  }Z`);
+          .attr('d', (d) => `M${ d.join('L') }Z`);
       } else {
         let areaFn = area();
 
