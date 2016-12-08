@@ -1,9 +1,6 @@
 import Controller from 'ember-controller';
-import Ember from 'ember';
 import computed from 'ember-computed';
 import { poissonDiscSampler } from 'maximum-plaid/helpers/poisson-disc-sampler';
-
-export default Ember.Controller.extend({
 
 export default Controller.extend({
 

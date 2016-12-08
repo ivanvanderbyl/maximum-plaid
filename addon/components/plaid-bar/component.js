@@ -76,8 +76,6 @@ const PlaidBarComponent = Component.extend(GroupElement, {
 
     let x, width, y, height, pathData;
 
-    console.log(values);
-
     let barConstructor = this.get('barConstructor');
 
     if (orientation === 'vertical') {
@@ -104,7 +102,7 @@ const PlaidBarComponent = Component.extend(GroupElement, {
     }
 
     // TODO: Configure this
-    let t = transition().duration(300).ease(easeCubicInOut);
+    let t = transition().duration(125).ease(easeCubicInOut);
 
     // UPDATE
     let bars = this.selection.selectAll('.bar').data(values);

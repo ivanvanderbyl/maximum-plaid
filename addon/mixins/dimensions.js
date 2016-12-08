@@ -8,7 +8,8 @@ const {
     throttle,
     next
   },
-  on
+  on,
+  get
 } = Ember;
 
 export default Mixin.create(GlobalResize, {
