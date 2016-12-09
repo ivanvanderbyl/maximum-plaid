@@ -14,7 +14,7 @@ export default Component.extend({
   tagName: '',
   layout,
 
-  duration: 1e3,
+  duration: 2e3,
 
   delay: 0,
 

@@ -3,13 +3,13 @@ import GroupElement from '../../mixins/group-element';
 import { max, min } from 'd3-array';
 import { path } from 'd3-path';
 import { transition } from 'd3-transition';
-import { easeCubicInOut } from 'd3-ease';
+import { easeBounceInOut } from 'd3-ease';
 
 const {
   assert,
   Component,
   getProperties,
-  run: { scheduleOnce },
+  run,
   typeOf
 } = Ember;
 
@@ -55,6 +55,14 @@ const PlaidBarComponent = Component.extend(GroupElement, {
 
   barConstructor: null,
 
+  /**
+   * Transition duration in ms
+   *
+   * @type {Number}
+   * @public
+   */
+  duration: 125,
+
   didReceiveAttrs() {
     this._super(...arguments);
 
@@ -67,7 +75,7 @@ const PlaidBarComponent = Component.extend(GroupElement, {
 
     assert(`${checkScale} must be a band-scale for ${orientation} bar charts`, typeOf(this.get(checkScale).bandwidth) === 'function');
 
-    scheduleOnce('afterRender', this, this.drawBars);
+    run.scheduleOnce('afterRender', this, this.drawBars);
   },
 
   drawBars() {
@@ -77,17 +85,18 @@ const PlaidBarComponent = Component.extend(GroupElement, {
     let x, width, y, height, pathData;
 
     let barConstructor = this.get('barConstructor');
+    let duration = this.get('duration');
 
     if (orientation === 'vertical') {
       let maxHeight = max(yScale.range());
       x = (d) => xScale(d[0]);
-      width = () => xScale.bandwidth();
       y = (d) => yScale(d[1]);
+      width = () => xScale.bandwidth();
       height = (d) => maxHeight - yScale(d[1]);
     } else {
       x = () => min(xScale.range());
-      width = (d) => xScale(d[0]);
       y = (d) => yScale(d[1]);
+      width = (d) => xScale(d[0]);
       height = () => yScale.bandwidth();
     }
 
@@ -101,8 +110,7 @@ const PlaidBarComponent = Component.extend(GroupElement, {
       };
     }
 
-    // TODO: Configure this
-    let t = transition().duration(125).ease(easeCubicInOut);
+    let t = transition().duration(duration).ease(easeBounceInOut);
 
     // UPDATE
     let bars = this.selection.selectAll('.bar').data(values);
@@ -119,27 +127,25 @@ const PlaidBarComponent = Component.extend(GroupElement, {
 
     // ENTER + UPDATE
     enterJoin.merge(bars)
-      // .on('click', (d) => run(this, this.handleBarClick, d))
+      .on('click', (d, i) => run.next(this, this.handleBarClick, d, i))
       .on('mouseover', (d, index) => {
-        console.log(d, index);
+        run.next(this, this.handleBarHover, d, index);
       })
-      .on('mouseout', (d, index) => {
-        console.log(d, index);
+      .on('mouseout', () => {
+        run.next(this, this.handleBarHover, null, null);
       })
-
-          // run(this, this.handleBarClick, d, index))
       .transition(t)
       .attr('d', pathData)
     .attr('fill', fill)
     .attr('fillOpacity', fillOpacity);
   },
 
-  handleBarClick(d) {
-    this.sendAction('click', d);
+  handleBarClick(d, index) {
+    this.sendAction('click', d, index);
   },
 
-  handleBarHover(d) {
-    this.sendAction('hover', d);
+  handleBarHover(d, index) {
+    this.sendAction('hover', d, index);
   }
 });
 
