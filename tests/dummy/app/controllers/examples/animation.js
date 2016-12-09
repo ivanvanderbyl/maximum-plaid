@@ -2,8 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
 
-  dataA: { value: 100 },
-  dataB: { value: 200 },
+  dataA: { a: 100, b: 50, c: 20 },
+  dataB: { a: 200, b: 120, c: 300 },
 
   data: null,
 

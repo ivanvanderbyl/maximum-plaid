@@ -1,16 +1,25 @@
 <button onclick={{action "toggleDataSets"}}>Toggle data</button>
 
-<svg width="500" height="100">
+<svg width="500" height="150">
   {{#plaid-animation
     data=data
     on-end=(action "updateRenderStats")
   as |data info|}}
-    <rect height="32" width={{data.value}} fill="blue"></rect>
+    <g transform="translate(24,24)">
+      <rect transform="translate(0, 0)" height="32" width={{data.a}} fill="red"></rect>
+      <rect transform="translate(0, 32)" height="32" width={{data.b}} fill="green"></rect>
+      <rect transform="translate(0, 64)" height="32" width={{data.c}} fill="blue"></rect>
+
+      <g transform="translate({{if data.a (add data.a 8) 0}}, 16)"><text style="dominant-baseline: middle;">{{format data.a format=",.2f"}}</text></g>
+      <g transform="translate({{if data.b (add data.b 8) 0}}, 48)"><text style="dominant-baseline: middle;">{{format data.b format=",.2f"}}</text></g>
+      <g transform="translate({{if data.c (add data.c 8) 0}}, 80)"><text style="dominant-baseline: middle;">{{format data.c format=",.2f"}}</text></g>
+    </g>
+
   {{/plaid-animation}}
 </svg>
 
 <pre>
 
-  Actual render duration: {{performanceDuration}}ms
+  Actual render duration: {{format performanceDuration format=",.4f"}}ms
 
 </pre>

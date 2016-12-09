@@ -56,14 +56,7 @@ export default Component.extend({
 
     if (!oldAttrs) { return; }
 
-    // set(this, 'previousData', Object.assign({}, oldAttrs.data.value));
-
-    // if (oldAttrs.data.value) {
-    //   console.log(oldAttrs.data.value, newAttrs.data.value);
-    //   newAttrs.data.value.value = 9;
-    // }
-
-    // console.log(newAttrs.data.value);
+    set(this, 'previousData', oldAttrs.data.value);
 
     // cancel existing loop if it exists
     let loopID = get(this, 'loopID');
@@ -109,14 +102,14 @@ export default Component.extend({
 
     if (this.queue.length) {
       this.startTime = window.performance.now();
-      // let prevData = Object.assign({}, get(this, 'previousData'));
+      let prevData = get(this, 'previousData');
 
       /* Get the next index */
       let [data] = this.queue;
       /* compare cached version to next props */
 
       // console.log(prevData, data);
-      set(this, 'interpolator', interpolate({ value: 1 }, data));
+      set(this, 'interpolator', interpolate(prevData, data));
       set(this, 'loopID', timer.subscribe(
         this.functionToBeRunEachFrame.bind(this),
         get(this, 'duration')
