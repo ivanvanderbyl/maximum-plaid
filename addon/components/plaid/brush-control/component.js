@@ -65,7 +65,9 @@ export default Component.extend(GroupElement, {
   },
 
   scheduleDraw() {
-    scheduleOnce('render', this, this.drawBrush);
+    let extent = this.get('extent');
+    let xScale = this.get('xScale');
+    scheduleOnce('render', this, this.drawBrush, xScale, extent);
   },
 
   drawBrush(xScale, newSelection) {
