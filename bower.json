@@ -4,6 +4,7 @@
     "ember": "~2.10.0",
     "ember-cli-shims": "0.1.3",
     "bourbon": "4.2.6",
-    "firebase": "^2.1.0"
+    "firebase": "^2.1.0",
+    "animation-frame": "~0.2.4"
   }
 }
