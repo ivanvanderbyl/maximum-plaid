@@ -47,7 +47,7 @@ function isSubSelection(extent1, extent2) {
 }
 
 export default Component.extend(GroupElement, {
-  clearBrushSelectionAfterBrush: true,
+  clearBrushSelectionAfterBrush: false,
   snappingRange: 15e3,
 
   x: 0,
