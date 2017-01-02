@@ -3,11 +3,11 @@ import Component from 'ember-component';
 import layout from './template';
 import Timer from 'maximum-plaid/utils/timer';
 import { easeBounceOut } from 'd3-ease';
-import { interpolate } from 'd3-interpolate';
-
+import { victoryInterpolator } from 'maximum-plaid/utils/animation-utils';
 const {
   get, set, computed,
-  isPresent
+  RSVP: { Promise },
+  run
 } = Ember;
 
 export default Component.extend({
@@ -18,8 +18,29 @@ export default Component.extend({
 
   delay: 0,
 
-  data: {},
+  /**
+   * The data which will be yielded for each frame
+   * @public
+   * @readonly
+   */
   newData: {},
+
+  /**
+   * @public
+   *
+   * The data to transition to
+   */
+  data: {},
+
+  /**
+   * @public
+   * @type Object
+   *
+   * Data from the previous transition, not set until the animation is complete.
+   *
+   * You can set this to the initial state if you want to transition from zero values to something.
+   */
+  previousData: null,
 
   ease: easeBounceOut,
 
@@ -44,19 +65,25 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
 
-    // Length check prevents us from triggering `onEnd` in `traverseQueue`.
-    // if (this.queue.length) {
-    //   console.log(this.queue);
-    //   this.traverseQueue();
-    // }
+    // Length check prevents us from triggering `on-end` in `traverseQueue`.
+    if (this.queue.length) {
+      this.traverseQueue();
+    }
   },
 
-  didReceiveAttrs({ newAttrs, oldAttrs }) {
-    // this._super(...arguments);
+  didReceiveAttrs() {
+    this._super(...arguments);
 
-    if (!oldAttrs) { return; }
+    let data = this.get('data');
+    let previousData = this.get('previousData');
 
-    set(this, 'previousData', oldAttrs.data.value);
+    if (!previousData) {
+      Promise.resolve().then(() => {
+        this.set('previousData', data);
+        this.set('newData', data);
+      });
+      return;
+    }
 
     // cancel existing loop if it exists
     let loopID = get(this, 'loopID');
@@ -65,18 +92,23 @@ export default Component.extend({
     }
 
     /* If an object was supplied */
-    if (!Array.isArray(newAttrs.data.value)) {
+    if (!Array.isArray(data)) {
       // Replace the tween queue. Could set `this.queue = [nextProps.data]`,
       // but let's reuse the same array.
       // this.queue.length = 0;
       // this.queue.push(newAttrs.data.value);
 
-      this.queue = [Object.assign({}, newAttrs.data.value)];
+      this.queue = [Object.assign({}, data)];
     /* If an array was supplied */
     } else {
       /* Extend the tween queue */
-      this.queue.push(...newAttrs.data.value);
+      this.queue.push(...data);
     }
+
+    run.next(this, ()=>{
+      this.set('previousData', data);
+    });
+
     /* Start traversing the tween queue */
     this.traverseQueue();
   },
@@ -94,11 +126,11 @@ export default Component.extend({
 
   /**
    * Traverse the tween queue
-   *
    * @private
    */
   traverseQueue() {
     let timer = this.get('timer');
+    let delay = this.get('delay');
 
     if (this.queue.length) {
       this.startTime = window.performance.now();
@@ -108,13 +140,22 @@ export default Component.extend({
       let [data] = this.queue;
       /* compare cached version to next props */
 
-      // console.log(prevData, data);
-      set(this, 'interpolator', interpolate(prevData, data));
-      set(this, 'loopID', timer.subscribe(
-        this.functionToBeRunEachFrame.bind(this),
-        get(this, 'duration')
-      ));
+      set(this, 'interpolator', victoryInterpolator(prevData, data));
+      if (delay > 0) {
+        run.later(this, function() {
+          set(this, 'loopID', timer.subscribe(
+            this.functionToBeRunEachFrame.bind(this),
+            get(this, 'duration'))
+          );
+        }, delay);
+      } else {
+        set(this, 'loopID', timer.subscribe(
+          this.functionToBeRunEachFrame.bind(this),
+          get(this, 'duration'))
+        );
+      }
     } else {
+
       let performanceDuration = window.performance.now() - this.startTime;
       this.sendAction('on-end', performanceDuration);
     }
@@ -162,7 +203,7 @@ export default Component.extend({
 
     // console.log(result);
 
-    this.set('newData', result);
+    Promise.resolve().then(() => this.set('newData', result));
 
     // this.setProperties({
     //   data: interpolator(get(this, 'ease')(step)),
