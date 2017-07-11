@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { select } from 'd3-selection';
 
-const { computed } = Ember;
+const { computed, Mixin } = Ember;
 
 /**
  * @public
@@ -9,7 +9,7 @@ const { computed } = Ember;
  * variable of `this.selection` to a D3 selection of itself.
  */
 
-export default Ember.Mixin.create({
+export default Mixin.create({
   tagName: 'g',
 
   x: 0,

@@ -1,8 +1,8 @@
-import Ember from 'ember';
 import layout from '../templates/components/plaid-plot';
-import Coordinates from '../mixins/coordinates';
+import Coordinates from 'maximum-plaid/mixins/coordinates';
+import Component from 'ember-component';
 
-const PlotComponent = Ember.Component.extend(Coordinates, {
+let PlotComponent = Component.extend(Coordinates, {
   layout,
 
   tagName: 'svg',

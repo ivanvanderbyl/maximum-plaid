@@ -2,6 +2,8 @@ import Ember from 'ember';
 import GlobalResize from 'maximum-plaid/mixins/global-resize';
 
 const {
+  Mixin,
+  K,
   run: {
     throttle,
     next
@@ -9,7 +11,7 @@ const {
   on
 } = Ember;
 
-export default Ember.Mixin.create(GlobalResize, {
+export default Mixin.create(GlobalResize, {
 
   width: 1,
   height: 1,
@@ -18,7 +20,7 @@ export default Ember.Mixin.create(GlobalResize, {
     next(this, this.measureDimensions);
   }),
 
-  didMeasureDimensions: Ember.K,
+  didMeasureDimensions: K,
 
   didResize() {
     // window.requestAnimationFrame(this.measureDimensions.bind(this));
@@ -31,12 +33,14 @@ export default Ember.Mixin.create(GlobalResize, {
     }
 
     let rect = this.element.getBoundingClientRect();
-    this.setProperties({
-      width: rect.width,
-      height: rect.height
-    });
+    next(this, function() {
+      this.setProperties({
+        width: rect.width,
+        height: rect.height
+      });
 
-    this.trigger('didMeasureDimensions');
+      this.trigger('didMeasureDimensions');
+    });
   }
 
 });

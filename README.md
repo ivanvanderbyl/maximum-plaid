@@ -1,3 +1,5 @@
+**Deprecated: Please see (and use) [ember-primer](https://github.com/ember-visualization/ember-primer) instead, as this is no longer maintained**
+
 ![Maximum Plaid](/logo/maximum-plaid-logo.png)
 
 [![Build Status](https://travis-ci.org/ivanvanderbyl/maximum-plaid.svg?branch=master)](https://travis-ci.org/ivanvanderbyl/maximum-plaid)

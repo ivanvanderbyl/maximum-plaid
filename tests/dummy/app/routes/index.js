@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import Route from 'ember-route';
 
 const {
   inject,
@@ -6,7 +7,7 @@ const {
   String: { camelize }
 } = Ember;
 
-export default Ember.Route.extend({
+export default Route.extend({
   firebase: inject.service(),
 
   model() {
@@ -16,7 +17,7 @@ export default Ember.Route.extend({
       ref.once('value', function(snapshot) {
         let value = snapshot.val();
         let data = {};
-        Object.keys(value).map((key) => {
+        Object.keys(value).forEach((key) => {
           data[camelize(key)] = value[key];
         });
 
